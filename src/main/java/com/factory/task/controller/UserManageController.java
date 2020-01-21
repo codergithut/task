@@ -31,6 +31,11 @@ public class UserManageController {
     @Autowired
     private AuthResource authResource;
 
+    @GetMapping("/getUsers")
+    public RestModelTemplate<List<UserInfo>> getUser() {
+        return new RestModelTemplate<List<UserInfo>>().Success(userService.findAll());
+    }
+
     /**
      * 创建任务
      * @return

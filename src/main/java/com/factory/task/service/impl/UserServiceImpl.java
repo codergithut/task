@@ -21,6 +21,7 @@ import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -184,6 +185,19 @@ public class UserServiceImpl implements UserService{
     public UserInfoData findUserByNameAndPassWord(String userName, String passWord) {
         UserInfoData userInfoData = userInfoDataCurd.findByUserNameAndPassWord(userName, passWord);
         return userInfoData;
+    }
+
+    @Override
+    public List<UserInfo> findAll() {
+        List<UserInfoData> userInfoDatas = (List) userInfoDataCurd.findAll();
+        if(userInfoDatas.isEmpty()) {
+            return null;
+        }
+        return userInfoDatas.stream().map(e ->  {
+            UserInfo userInfo = new UserInfo();
+            BeanUtils.copyProperties(e, userInfo);
+            return userInfo;
+        }).collect(Collectors.toList());
     }
 
 }

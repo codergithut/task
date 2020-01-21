@@ -29,4 +29,6 @@ public interface UserService {
     List<String> findUserUriByUserName(String userName);
 
     UserInfoData findUserByNameAndPassWord(String userName, String passWord);
+
+    List<UserInfo> findAll();
 }
