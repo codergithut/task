@@ -23,7 +23,7 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     @Override
     public Boolean createTaskTpl(TaskTplView taskTplView) {
-        return StringUtils.isEmpty(saveTaskTpl(taskTplView));
+·        return !StringUtils.isEmpty(saveTaskTpl(taskTplView));
 
     }
 

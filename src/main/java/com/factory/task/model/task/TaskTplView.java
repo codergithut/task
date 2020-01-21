@@ -111,15 +111,17 @@ public class TaskTplView {
         return nextTaskTpl;
     }
 
+    public Boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(Boolean parent) {
+        isParent = parent;
+    }
+
     public void setNextTaskTpl(TaskTplView nextTaskTpl) {
         this.nextTaskTpl = nextTaskTpl;
     }
 
-    public Boolean getParent() {
-        return isParent;
-    }
 
-    public void setParent(Boolean parent) {
-        isParent = parent;
-    }
 }
