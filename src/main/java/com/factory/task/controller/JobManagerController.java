@@ -16,6 +16,7 @@ import java.util.UUID;
  */
 @RestController
 @RequestMapping("/jobManager")
+@CrossOrigin
 public class JobManagerController {
 
     @Autowired
