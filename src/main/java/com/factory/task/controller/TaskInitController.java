@@ -29,6 +29,7 @@ public class TaskInitController {
     @PostMapping("/create")
     public RestModelTemplate<Boolean> createTaskTpl(@RequestBody TaskTplView taskTplView) {
         taskTplView.setTaskCode(UUID.randomUUID().toString());
+        taskTplView.setIsParent(true);
         return new RestModelTemplate<Boolean>().Success(taskTplService.createTaskTpl(taskTplView));
     }
 

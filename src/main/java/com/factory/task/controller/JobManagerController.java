@@ -29,6 +29,7 @@ public class JobManagerController {
     @PostMapping("/createJob")
     public RestModelTemplate<Boolean> createJob(@RequestBody JobView jobView) {
         jobView.setJobCode(UUID.randomUUID().toString());
+        jobView.setIsFinished("begin");
         return new RestModelTemplate<Boolean>().Success(jobService.createJob(jobView));
     }
 
