@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 创建工作流模板
@@ -26,6 +27,7 @@ public class TaskInitController {
      */
     @PostMapping("/create")
     public RestModelTemplate<Boolean> createTaskTpl(@RequestBody TaskTplView taskTplView) {
+        taskTplView.setTaskCode(UUID.randomUUID().toString());
         return new RestModelTemplate<Boolean>().Success(taskTplService.createTaskTpl(taskTplView));
     }
 

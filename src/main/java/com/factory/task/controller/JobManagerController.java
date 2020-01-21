@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tianjian on 2020/1/11.
@@ -26,6 +27,7 @@ public class JobManagerController {
      */
     @PostMapping("/createJob")
     public RestModelTemplate<Boolean> createJob(@RequestBody JobView jobView) {
+        jobView.setJobCode(UUID.randomUUID().toString());
         return new RestModelTemplate<Boolean>().Success(jobService.createJob(jobView));
     }
 
@@ -53,6 +55,7 @@ public class JobManagerController {
 
     @PostMapping("/addTaskInsExt")
     public RestModelTemplate<Boolean> attentionTaskInsCode(@RequestBody TaskInsExtView taskInsExt) {
+        taskInsExt.setTaskInsExtCode(UUID.randomUUID().toString());
         return new RestModelTemplate().Success(jobService.addTaskInsExtInfo(taskInsExt));
     }
 

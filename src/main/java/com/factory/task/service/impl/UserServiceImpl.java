@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public List<ResourceInfo> getAllResourceInfo() {
-        List<RoleInfoData> resourceInfos = (List<RoleInfoData>) resourceInfoDataCurd.findAll();
+        List<ResourceInfoData> resourceInfos = (List) resourceInfoDataCurd.findAll();
         if(CollectionUtils.isEmpty(resourceInfos)) {
             return null;
         }
@@ -149,16 +149,17 @@ public class UserServiceImpl implements UserService{
             relationDatas.add(resourceAndUriRelationData);
         });
         resourceAndUriRelationDataCurd.saveAll(relationDatas);
+        resourceInfoDataCurd.save(resourceInfoData);
         return true;
     }
 
     @Override
     public List<UriInfo> getAllUriInfo() {
-        List<UserInfoData> userInfoDatas = (List)uriInfoDataCurd.findAll();
-        if(CollectionUtils.isEmpty(userInfoDatas)) {
+        List<UriInfoData> uriInfoDatas = (List)uriInfoDataCurd.findAll();
+        if(CollectionUtils.isEmpty(uriInfoDatas)) {
             return null;
         }
-        return userInfoDatas.stream().map(e -> {
+        return uriInfoDatas.stream().map(e -> {
             UriInfo uriInfo = new UriInfo();
             BeanUtils.copyProperties(e, uriInfo);
             return uriInfo;
