@@ -48,6 +48,7 @@ public class JobManagerController {
     }
 
 
+    //ceshi
     @GetMapping("/getTaskInsByStatus")
     public RestModelTemplate<List<TaskInsView>> getTaskInsByStatusAndJobCode(@RequestParam("taskStatus") String taskStatus) {
         // 根据taskStatus获取所有服务实例 比如获取所有服务状态未start 提供给页面，如果是start可以点击完成，否则就是没啥操作
