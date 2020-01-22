@@ -42,14 +42,11 @@ public class JobManagerController {
         return new RestModelTemplate<>().Success(jobService.startJob(jobCode));
     }
 
-    //lsksd111111111111
     @GetMapping("/finishTaskIns")
     public RestModelTemplate<Boolean> finishTaskIns(@RequestParam("taskInsCode") String taskInsCode) {
         return new RestModelTemplate<>().Success(jobService.finishTaskIns(taskInsCode));
     }
 
-
-    //docker run -it -p 8081:8080 --name task tianjian3209/task:jenkins
     @GetMapping("/getTaskInsByStatus")
     public RestModelTemplate<List<TaskInsView>> getTaskInsByStatusAndJobCode(@RequestParam("taskStatus") String taskStatus) {
         // 根据taskStatus获取所有服务实例 比如获取所有服务状态未start 提供给页面，如果是start可以点击完成，否则就是没啥操作
