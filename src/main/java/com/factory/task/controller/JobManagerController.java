@@ -42,6 +42,17 @@ public class JobManagerController {
         return new RestModelTemplate<>().Success(jobService.startJob(jobCode));
     }
 
+    @GetMapping("/getTaskInsInfo")
+    public RestModelTemplate<TaskInsView> getTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode) {
+        return new RestModelTemplate<>().Success(jobService.findTaskInsByCode(taskInsCode));
+    }
+
+    @GetMapping("/editTaskInsInfo")
+    public RestModelTemplate<Boolean> editTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode,
+                                                      @RequestParam("taskInsDescInfo") String taskInsDescInfo) {
+        return new RestModelTemplate<>().Success(jobService.editTaskInsByCode(taskInsCode,taskInsDescInfo));
+    }
+
     @GetMapping("/finishTaskIns")
     public RestModelTemplate<Boolean> finishTaskIns(@RequestParam("taskInsCode") String taskInsCode) {
         return new RestModelTemplate<>().Success(jobService.finishTaskIns(taskInsCode));

@@ -1,5 +1,7 @@
 package com.factory.task.model.task;
 
+import java.util.List;
+
 /**
  * Created by tianjian on 2020/1/11.
  */
@@ -19,6 +21,11 @@ public class TaskTplView {
      * 任务描述
      */
     private String taskDes;
+
+    /**
+     * 任务额外参数
+     */
+    private List<TaskTplDescMetaView> taskTplDescMetaViews;
 
     /**
      * 任务类型
@@ -123,5 +130,11 @@ public class TaskTplView {
         this.nextTaskTpl = nextTaskTpl;
     }
 
+    public List<TaskTplDescMetaView> getTaskTplDescMetaViews() {
+        return taskTplDescMetaViews;
+    }
 
+    public void setTaskTplDescMetaViews(List<TaskTplDescMetaView> taskTplDescMetaViews) {
+        this.taskTplDescMetaViews = taskTplDescMetaViews;
+    }
 }

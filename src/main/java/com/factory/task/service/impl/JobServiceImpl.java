@@ -147,6 +147,25 @@ public class JobServiceImpl implements JobService {
         }).collect(Collectors.toList());
     }
 
+    @Override
+    public TaskInsView findTaskInsByCode(String taskInsCode) {
+        TaskInsData taskInsData = taskInsDataCurd.findTaskInsDataByTaskInsCode(taskInsCode);
+        TaskInsView taskInsView = new TaskInsView();
+        BeanUtils.copyProperties(taskInsData, taskInsView);
+        return taskInsView;
+    }
+
+    @Override
+    public Boolean editTaskInsByCode(String taskInsCode, String taskInsDescInfo) {
+        TaskInsData taskInsData = taskInsDataCurd.findTaskInsDataByTaskInsCode(taskInsCode);
+        if("Finish".equals(taskInsData.getTaskStatus())) {
+            return false;
+        }
+        taskInsData.setTaskInsDescInfo(taskInsDescInfo);
+        return taskInsDataCurd.save(taskInsData) != null;
+    }
+
+
     private void createTaskInsByTpl(TaskTplData taskTplData, String jobCode) {
         List<TaskTplData> taskTplDatas = new ArrayList<>();
         TaskInsData taskInsData = new TaskInsData();

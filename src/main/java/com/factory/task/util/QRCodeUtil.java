@@ -9,8 +9,16 @@ import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.UUID;
 import javax.imageio.ImageIO;
+
+import com.alibaba.fastjson.JSON;
+import com.factory.task.data.task.TaskTplDescMetaData;
+import com.factory.task.model.task.TaskTplDescMetaView;
+import com.factory.task.model.task.TaskTplView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -153,6 +161,25 @@ public class QRCodeUtil {
 
     public static String decode(String path) throws Exception {
         return QRCodeUtil.decode(new File(path));
+    }
+
+    public static void main(String[] args) {
+        TaskTplView taskTplView = new TaskTplView();
+        taskTplView.setIsParent(true);
+        taskTplView.setTaskCode(UUID.randomUUID().toString());
+        taskTplView.setPublisherUserId(UUID.randomUUID().toString());
+        taskTplView.setReceiverUserId(UUID.randomUUID().toString());
+        taskTplView.setTaskDes("haha");
+        taskTplView.setTaskName("test");
+        taskTplView.setTaskType("one");
+        List<TaskTplDescMetaView> taskTplDescMetaViews = new ArrayList<>();
+        TaskTplDescMetaView taskTplDescMetaView = new TaskTplDescMetaView();
+        taskTplDescMetaView.setTaskCode(taskTplView.getTaskCode());
+        taskTplDescMetaView.setMetaName("测试");
+        taskTplDescMetaView.setMetaType("INT");
+        taskTplDescMetaViews.add(taskTplDescMetaView);
+        taskTplView.setTaskTplDescMetaViews(taskTplDescMetaViews);
+        System.out.println(JSON.toJSONString(taskTplView));
     }
 
 }

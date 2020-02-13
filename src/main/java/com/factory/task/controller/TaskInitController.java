@@ -1,6 +1,7 @@
 package com.factory.task.controller;
 
 import com.factory.task.model.RestModelTemplate;
+import com.factory.task.model.task.TaskTplDescMetaView;
 import com.factory.task.model.task.TaskTplView;
 import com.factory.task.service.TaskTplService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,13 @@ public class TaskInitController {
     public RestModelTemplate<List<TaskTplView>> getAllFactoryTaskTpl() {
         List<TaskTplView> taskTplViews = new ArrayList<>();
         return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getParentTaskTpl());
+    }
+
+    @RequestMapping("/getTplDescMeta")
+    public RestModelTemplate<List<TaskTplDescMetaView>>
+    getTaskDescTplDescMetaViewByTaskCode(@RequestParam("taskCode") String taskCode) {
+        return new RestModelTemplate<List<TaskTplDescMetaView>>().Success(taskTplService.getTaskDescMetaByTaskCode(taskCode));
+
     }
 
 }

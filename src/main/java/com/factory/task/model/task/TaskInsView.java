@@ -30,6 +30,11 @@ public class TaskInsView {
      */
     private String nextTaskTplCode;
 
+    /**
+     * 实例数据
+     */
+    private String taskInsDescInfo;
+
     public String getTaskInsCode() {
         return taskInsCode;
     }
@@ -68,5 +73,13 @@ public class TaskInsView {
 
     public void setNextTaskTplCode(String nextTaskTplCode) {
         this.nextTaskTplCode = nextTaskTplCode;
+    }
+
+    public String getTaskInsDescInfo() {
+        return taskInsDescInfo;
+    }
+
+    public void setTaskInsDescInfo(String taskInsDescInfo) {
+        this.taskInsDescInfo = taskInsDescInfo;
     }
 }

@@ -44,3 +44,11 @@ CREATE TABLE `fr`.`task_ins_ext_data` (
   `task_ins_ext_datacol` VARCHAR(45) NULL,
   `ext_date` DATETIME NULL,
   PRIMARY KEY (`id`));
+
+ CREATE TABLE `fr`.`task_tpl_desc_meta_data` (
+   `task_tpl_desc_code` VARCHAR(36) NOT NULL,
+   `task_code` VARCHAR(36) NOT NULL,
+   `meta_name` VARCHAR(45) NULL,
+   `meta_type` VARCHAR(45) NULL,
+   PRIMARY KEY (`task_tpl_desc_code`));
+

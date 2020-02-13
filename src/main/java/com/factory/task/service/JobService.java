@@ -27,4 +27,8 @@ public interface JobService {
     List<JobView> findJobViewsByUserId(String userCode);
 
     List<JobView> findJobViewsByWaitMe(String userCode);
+
+    TaskInsView findTaskInsByCode(String taskInsCode);
+
+    Boolean editTaskInsByCode(String taskInsCode, String taskInsDescInfo);
 }

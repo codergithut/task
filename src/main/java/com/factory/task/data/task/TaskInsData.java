@@ -34,6 +34,11 @@ public class TaskInsData {
     private String taskStatus;
 
     /**
+     * task描述
+     */
+    private String taskInsDescInfo;
+
+    /**
      * 工作流编号
      */
     private String jobCode;
@@ -89,5 +94,13 @@ public class TaskInsData {
 
     public void setNextTaskTplCode(String nextTaskTplCode) {
         this.nextTaskTplCode = nextTaskTplCode;
+    }
+
+    public String getTaskInsDescInfo() {
+        return taskInsDescInfo;
+    }
+
+    public void setTaskInsDescInfo(String taskInsDescInfo) {
+        this.taskInsDescInfo = taskInsDescInfo;
     }
 }

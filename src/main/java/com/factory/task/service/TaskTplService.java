@@ -1,5 +1,6 @@
 package com.factory.task.service;
 
+import com.factory.task.model.task.TaskTplDescMetaView;
 import com.factory.task.model.task.TaskTplView;
 
 import java.util.List;
@@ -21,4 +22,11 @@ public interface TaskTplService {
      * @return
      */
     List<TaskTplView> getParentTaskTpl();
+
+    /**
+     *
+     * @param taskCode
+     * @return
+     */
+    List<TaskTplDescMetaView> getTaskDescMetaByTaskCode(String taskCode);
 }
