@@ -37,6 +37,12 @@ public class UserInfoData {
      */
     private String telPhoneNum;
 
+    /**
+     * 部门id
+     */
+    private String departmentCode;
+
+
     public String getUserCode() {
         return userCode;
     }
@@ -75,5 +81,13 @@ public class UserInfoData {
 
     public void setPassWord(String passWord) {
         this.passWord = passWord;
+    }
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
     }
 }

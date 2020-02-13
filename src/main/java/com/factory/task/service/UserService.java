@@ -12,6 +12,7 @@ import java.util.List;
  * Created by tianjian on 2020/1/15.
  */
 public interface UserService {
+
     List<RoleInfo> getAllRoleInfo();
 
     Boolean createUser(UserInfo userInfo);
@@ -31,4 +32,8 @@ public interface UserService {
     UserInfoData findUserByNameAndPassWord(String userName, String passWord);
 
     List<UserInfo> findAll();
+
+    List<UserInfoData> findUserInfoDataByDepartmentCode(String departmentCode);
+
+    Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas);
 }

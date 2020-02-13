@@ -34,6 +34,11 @@ public class UserInfo {
 
     private List<String> roleCodes;
 
+    /**
+     * 部门id
+     */
+    private String departmentCode;
+
     public String getUserCode() {
         return userCode;
     }
@@ -80,5 +85,13 @@ public class UserInfo {
 
     public void setRoleCodes(List<String> roleCodes) {
         this.roleCodes = roleCodes;
+    }
+
+    public String getDepartmentCode() {
+        return departmentCode;
+    }
+
+    public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
     }
 }

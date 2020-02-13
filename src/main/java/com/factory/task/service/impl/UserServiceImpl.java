@@ -21,7 +21,6 @@ import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -198,6 +197,16 @@ public class UserServiceImpl implements UserService{
             BeanUtils.copyProperties(e, userInfo);
             return userInfo;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<UserInfoData> findUserInfoDataByDepartmentCode(String departmentCode) {
+        return userInfoDataCurd.findByDepartmentCode(departmentCode);
+    }
+
+    @Override
+    public Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas) {
+        return userInfoDataCurd.saveAll(userInfoDatas) != null;
     }
 
 }
