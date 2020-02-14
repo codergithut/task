@@ -1,7 +1,7 @@
 package com.factory.task.controller;
 
 import com.factory.task.model.RestModelTemplate;
-import com.factory.task.model.user.DepartmentView;
+import com.factory.task.model.department.DepartmentView;
 import com.factory.task.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

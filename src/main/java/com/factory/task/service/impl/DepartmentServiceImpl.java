@@ -3,7 +3,7 @@ package com.factory.task.service.impl;
 import com.factory.task.data.department.DepartmentData;
 import com.factory.task.data.department.curd.DepartmentDataCurd;
 import com.factory.task.data.user.UserInfoData;
-import com.factory.task.model.user.DepartmentView;
+import com.factory.task.model.department.DepartmentView;
 import com.factory.task.service.DepartmentService;
 import com.factory.task.service.UserService;
 import org.springframework.beans.BeanUtils;

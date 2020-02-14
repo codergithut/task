@@ -1,4 +1,4 @@
-package com.factory.task.model.user;
+package com.factory.task.model.department;
 
 
 /**

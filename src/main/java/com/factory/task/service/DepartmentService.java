@@ -1,6 +1,6 @@
 package com.factory.task.service;
 
-import com.factory.task.model.user.DepartmentView;
+import com.factory.task.model.department.DepartmentView;
 
 import java.util.List;
 
