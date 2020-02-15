@@ -14,12 +14,12 @@ public class AttendanceTimeData {
     /**
      * 考情计划编号
      */
-    @Id
     private String attendanceDailyPlanCode;
 
     /**
      * 考情计划编号
      */
+    @Id
     private String attendanceTimeCode;
 
     /**

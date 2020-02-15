@@ -22,11 +22,6 @@ public class AttendancePersonHistoryData {
     private String userCode;
 
     /**
-     * 考勤异常检查编号
-     */
-    private String attendanceTimeCode;
-
-    /**
      * 考情异常
      */
     private String exception;
@@ -63,14 +58,6 @@ public class AttendancePersonHistoryData {
 
     public void setHistoryDate(Date historyDate) {
         this.historyDate = historyDate;
-    }
-
-    public String getAttendanceTimeCode() {
-        return attendanceTimeCode;
-    }
-
-    public void setAttendanceTimeCode(String attendanceTimeCode) {
-        this.attendanceTimeCode = attendanceTimeCode;
     }
 
     public String getAttendanceRecordDesc() {

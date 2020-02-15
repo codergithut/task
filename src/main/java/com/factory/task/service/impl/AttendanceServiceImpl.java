@@ -2,6 +2,7 @@ package com.factory.task.service.impl;
 
 import com.factory.task.data.attence.AttendanceDailyPlanData;
 import com.factory.task.data.attence.AttendancePersonHistoryData;
+import com.factory.task.data.attence.AttendanceRecordData;
 import com.factory.task.data.attence.AttendanceTimeData;
 import com.factory.task.data.attence.curd.AttendanceDailyPlanDataCurd;
 import com.factory.task.data.attence.curd.AttendancePersonHistoryDataCurd;
@@ -13,6 +14,7 @@ import com.factory.task.model.attence.AttendanceTimeView;
 import com.factory.task.service.AttendanceService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ import java.util.stream.Collectors;
 /**
  * Created by tianjian on 2020/2/14.
  */
+@Service
 public class AttendanceServiceImpl implements AttendanceService {
 
     @Autowired
@@ -53,7 +56,17 @@ public class AttendanceServiceImpl implements AttendanceService {
     }
 
     @Override
+    public Boolean saveAttendancePersonHistory(AttendancePersonHistoryData attendancePersonHistoryData) {
+        return attendancePersonHistoryDataCurd.save(attendancePersonHistoryData) != null;
+    }
+
+    @Override
     public Boolean addAttendancePlan(AttendanceDailyPlanView attendanceDailyPlanView) {
+        AttendanceDailyPlanData searchData = attendanceDailyPlanDataCurd
+                .findByDepartmentCode(attendanceDailyPlanView.getDepartmentCode());
+        if(searchData != null) {
+            return false;
+        }
         AttendanceDailyPlanData attendanceDailyPlanData = new AttendanceDailyPlanData();
         BeanUtils.copyProperties(attendanceDailyPlanView, attendanceDailyPlanData);
         attendanceDailyPlanData.setAttendanceDailyPlanCode(UUID.randomUUID().toString());
@@ -61,6 +74,8 @@ public class AttendanceServiceImpl implements AttendanceService {
         attendanceTimeViews.forEach(e -> {
             AttendanceTimeData attendanceTimeData = new AttendanceTimeData();
             BeanUtils.copyProperties(e, attendanceTimeData);
+            attendanceTimeData.setAttendanceDailyPlanCode(attendanceDailyPlanData.getAttendanceDailyPlanCode());
+            attendanceTimeData.setAttendanceTimeCode(UUID.randomUUID().toString());
             attendanceTimeDataCurd.save(attendanceTimeData);
         });
         return attendanceDailyPlanDataCurd.save(attendanceDailyPlanData) != null;
@@ -100,5 +115,10 @@ public class AttendanceServiceImpl implements AttendanceService {
             attendanceTimeDataCurd.save(attendanceTimeData);
         });
         return attendanceDailyPlanDataCurd.save(attendanceDailyPlanData) != null;
+    }
+
+    @Override
+    public List<AttendanceRecordData> findAttendanceRecordByDateAndUserCode(Date today_start, Date today_end, String userCode) {
+        return attendanceRecordDataCurd.findByAttendanceTimeAfterAndAttendanceTimeBeforeAndUserCode(today_start, today_end, userCode);
     }
 }
