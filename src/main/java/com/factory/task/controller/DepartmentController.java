@@ -38,14 +38,5 @@ public class DepartmentController {
         return new RestModelTemplate<>().Success(true);
     }
 
-    public static void main(String[] args) {
-        DepartmentView departmentView = new DepartmentView();
-        departmentView.setChildDepartmentCode(UUID.randomUUID().toString());
-        departmentView.setDepartmentCode(UUID.randomUUID().toString());
-        departmentView.setDepartmentName("test");
-        departmentView.setParentDepartmentCode(UUID.randomUUID().toString());
-        System.out.println(JSON.toJSONString(departmentView));
-    }
-
 
 }
