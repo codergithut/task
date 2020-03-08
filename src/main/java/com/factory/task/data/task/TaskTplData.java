@@ -5,6 +5,7 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
  * Created by tianjian on 2020/1/13.
@@ -53,6 +54,11 @@ public class TaskTplData {
      * 子节点任务
      */
     private String nextTaskTplCode;
+
+    /**
+     * 模版创建时间
+     */
+    private Date createDate;
 
     /**
      * 是否是根节点
@@ -129,5 +135,13 @@ public class TaskTplData {
 
     public void setNextTaskTplCode(String nextTaskTplCode) {
         this.nextTaskTplCode = nextTaskTplCode;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

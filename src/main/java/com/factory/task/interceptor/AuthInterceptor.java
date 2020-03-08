@@ -1,5 +1,7 @@
 package com.factory.task.interceptor;
 
+import com.factory.task.data.user.UserInfoData;
+import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -17,18 +19,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) {
-        String token = request.getParameter("token");
+        UserInfoData userInfo = (UserInfoData) request.getSession().getAttribute(ConstantUtils.USERINFO);
         String uri = request.getRequestURI();
-        if(token == null) {
+        if(userInfo == null) {
             return false;
         }
 
-        String userName = authResource.authUserInfo(token);
-        if("Fail".equals(userName)) {
-            return false;
-        }
-
-        return authResource.isUserAuth(userName, uri);
+        return authResource.isUserAuth(userInfo.getUserName(), uri);
 
 
     }

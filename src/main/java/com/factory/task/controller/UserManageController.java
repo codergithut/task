@@ -1,6 +1,7 @@
 package com.factory.task.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.factory.task.data.user.UserInfoData;
 import com.factory.task.error.UserIsLogin;
 import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
@@ -10,9 +11,11 @@ import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
+import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -82,18 +85,10 @@ public class UserManageController {
 
     @GetMapping("/login")
     public RestModelTemplate<String> loginService(@RequestParam("userName") String userName,
-                                                @RequestParam("passWord") String passWord) {
-        String token = null;
-        try {
-            token = authResource.createToken(userName, passWord);
-        } catch (UserIsLogin userIsLogin) {
-            userIsLogin.printStackTrace();
-            return new RestModelTemplate<>().Fail("003", "用户已经登陆");
-        } catch (UserIsNotExist userIsNotExist) {
-            userIsNotExist.printStackTrace();
-            return new RestModelTemplate<>().Fail("004", "用户不存在");
-        }
-        return new RestModelTemplate<>().Success(token);
+                                                @RequestParam("passWord") String passWord, HttpServletRequest request) {
+        UserInfoData userInfoData = authResource.getUserInfoByLoginInfo(userName, passWord);
+        request.getSession().setAttribute(ConstantUtils.USERINFO, userInfoData);
+        return new RestModelTemplate<>().Success(userInfoData);
     }
 
     @PostMapping("/loginOut")

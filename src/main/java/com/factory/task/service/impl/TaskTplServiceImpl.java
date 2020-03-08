@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -68,6 +69,7 @@ public class TaskTplServiceImpl implements TaskTplService {
         BeanUtils.copyProperties(taskTplView, taskTplData);
         taskTplData.setDependTaskTplCode(dependCode);
         taskTplData.setNextTaskTplCode(nextCode);
+        taskTplData.setCreateDate(new Date());
         taskTplData = taskTplDataCurd.save(taskTplData);
         return taskTplData.getTaskCode();
     }

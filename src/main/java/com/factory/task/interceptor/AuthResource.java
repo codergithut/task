@@ -3,6 +3,7 @@ package com.factory.task.interceptor;
 import com.factory.task.data.user.UserInfoData;
 import com.factory.task.error.UserIsLogin;
 import com.factory.task.error.UserIsNotExist;
+import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
@@ -64,6 +65,10 @@ public class AuthResource {
         return true;
     }
 
+    public UserInfoData getUserInfoByLoginInfo(String userName, String passWord) {
+        return userService.findUserByNameAndPassWord(userName, passWord);
+    }
+
     /**
      * 判断用户是否有权限
      * @param userName
@@ -102,5 +107,6 @@ public class AuthResource {
         }
         return true;
     }
+
 
 }
