@@ -1,20 +1,16 @@
 package com.factory.task.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.factory.task.job.StatisticsAttendanceJob;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.attence.AttendanceDailyPlanView;
 import com.factory.task.model.attence.AttendancePersonHistoryView;
-import com.factory.task.model.attence.AttendanceTimeView;
 import com.factory.task.model.task.TaskInsExtView;
 import com.factory.task.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 
 /**

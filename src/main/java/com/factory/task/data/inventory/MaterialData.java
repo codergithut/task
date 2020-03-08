@@ -18,7 +18,7 @@ public class MaterialData {
     /**
      * 用料说明
      */
-    private String desc;
+    private String materialDesc;
 
     /**
      * 品名
@@ -44,12 +44,12 @@ public class MaterialData {
         this.materialCode = materialCode;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getMaterialDesc() {
+        return materialDesc;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setMaterialDesc(String materialDesc) {
+        this.materialDesc = materialDesc;
     }
 
     public String getRemarks() {

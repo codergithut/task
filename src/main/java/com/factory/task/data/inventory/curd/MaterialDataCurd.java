@@ -10,4 +10,6 @@ import java.util.List;
  */
 public interface MaterialDataCurd extends CrudRepository<MaterialData,String> {
     List<MaterialData> findByMaterialName(String materialName);
+
+    List<MaterialData> findByMaterialNameAndMaterialColour(String materialName, String materialColour);
 }

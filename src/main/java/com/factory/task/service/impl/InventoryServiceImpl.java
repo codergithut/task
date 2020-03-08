@@ -41,6 +41,11 @@ public class InventoryServiceImpl implements InventoryService {
 
     @Override
     public Boolean saveMaterial(MaterialView materialView) {
+        List<MaterialData> searchDatas = materialDataCurd
+                .findByMaterialNameAndMaterialColour(materialView.getMaterialName(),materialView.getMaterialColour());
+        if(!CollectionUtils.isEmpty(searchDatas)) {
+            return false;
+        }
         MaterialData materialData = new MaterialData();
         BeanUtils.copyProperties(materialView, materialData);
         materialData.setMaterialCode(UUID.randomUUID().toString());
@@ -66,6 +71,7 @@ public class InventoryServiceImpl implements InventoryService {
         purchaseRecordsViews.forEach(e -> {
             PurchaseRecordsData purchaseRecordsData = new PurchaseRecordsData();
             BeanUtils.copyProperties(e, purchaseRecordsData);
+            purchaseRecordsData.setPurchaseDate(new Date());
             purchaseRecordsData.setPurchaseRecordsCode(UUID.randomUUID().toString());
             purchaseRecordsDataCurd.save(purchaseRecordsData);
             InventoryRecordData inventoryRecordData = inventoryRecordDataCurd
@@ -73,12 +79,15 @@ public class InventoryServiceImpl implements InventoryService {
             if(inventoryRecordData != null) {
                 inventoryRecordData.setDataTag(1);
                 inventoryRecordDataCurd.save(inventoryRecordData);
-                inventoryRecordData.setInventoryRecordCode(UUID.randomUUID().toString());
-                inventoryRecordData.setExistsNum(inventoryRecordData.getExistsNum() + purchaseRecordsData.getPurchaseNum());
-                inventoryRecordData.setDataTag(0);
-                inventoryRecordData.setUpdateTime(new Date());
-                inventoryRecordData.setVersion(inventoryRecordData.getVersion() + 1);
-                inventoryRecordDataCurd.save(inventoryRecordData);
+                InventoryRecordData newDate = new InventoryRecordData();
+                BeanUtils.copyProperties(inventoryRecordData, newDate);
+                newDate.setInventoryRecordCode(UUID.randomUUID().toString());
+                newDate.setChangeRecordCode(purchaseRecordsData.getPurchaseRecordsCode());
+                newDate.setExistsNum(inventoryRecordData.getExistsNum() + purchaseRecordsData.getPurchaseNum());
+                newDate.setDataTag(0);
+                newDate.setUpdateTime(new Date());
+                newDate.setVersion(inventoryRecordData.getVersion() + 1);
+                inventoryRecordDataCurd.save(newDate);
             } else {
                 inventoryRecordData = new InventoryRecordData();
                 inventoryRecordData.setDataTag(0);
@@ -86,7 +95,7 @@ public class InventoryServiceImpl implements InventoryService {
                 inventoryRecordData.setVersion(1);
                 inventoryRecordData.setUsedNum(0);
                 inventoryRecordData.setMaterialCode(e.getMaterialCode());
-                inventoryRecordData.setChangeRecordCode(e.getPurchaseRecordsCode());
+                inventoryRecordData.setChangeRecordCode(purchaseRecordsData.getPurchaseRecordsCode());
                 inventoryRecordData.setExistsNum(e.getPurchaseNum());
                 inventoryRecordDataCurd.save(inventoryRecordData);
             }
@@ -99,6 +108,11 @@ public class InventoryServiceImpl implements InventoryService {
     public Boolean saveOutGoingRecords(List<OutGoingRecordView> outGoingRecordViews) {
         List<Map<String,String>> exceptionInfo = new ArrayList<>();
         outGoingRecordViews.forEach(e -> {
+            OutGoingRecordData outGoingRecordData = new OutGoingRecordData();
+            BeanUtils.copyProperties(e, outGoingRecordData);
+            outGoingRecordData.setOutGoingDate(new Date());
+            outGoingRecordData.setOutGoingRecordCode(UUID.randomUUID().toString());
+
             InventoryRecordData inventoryRecordData = inventoryRecordDataCurd
                     .findByMaterialCodeAndDataTag(e.getMaterialCode(), 0);
             inventoryRecordData.setDataTag(1);
@@ -112,17 +126,16 @@ public class InventoryServiceImpl implements InventoryService {
                 exceptionInfo.add(key);
                 return;
             }
-            inventoryRecordData.setInventoryRecordCode(UUID.randomUUID().toString());
-            inventoryRecordData.setExistsNum(inventoryRecordData.getExistsNum() - e.getOutGoingNum());
-            inventoryRecordData.setUpdateTime(new Date());
-            inventoryRecordData.setUsedNum(inventoryRecordData.getUsedNum() + e.getOutGoingNum());
-            inventoryRecordData.setVersion(inventoryRecordData.getVersion() + 1);
-            inventoryRecordData.setChangeRecordCode(e.getOutGoingRecordCode());
-            inventoryRecordData.setDataTag(0);
-            inventoryRecordDataCurd.save(inventoryRecordData);
-            OutGoingRecordData outGoingRecordData = new OutGoingRecordData();
-            BeanUtils.copyProperties(e, outGoingRecordData);
-            outGoingRecordData.setOutGoingRecordCode(UUID.randomUUID().toString());
+            InventoryRecordData newData = new InventoryRecordData();
+            newData.setInventoryRecordCode(UUID.randomUUID().toString());
+            newData.setExistsNum(inventoryRecordData.getExistsNum() - e.getOutGoingNum());
+            newData.setUpdateTime(new Date());
+            newData.setUsedNum(inventoryRecordData.getUsedNum() + e.getOutGoingNum());
+            newData.setVersion(inventoryRecordData.getVersion() + 1);
+            newData.setChangeRecordCode(outGoingRecordData.getOutGoingRecordCode());
+            newData.setDataTag(0);
+            newData.setMaterialCode(e.getMaterialCode());
+            inventoryRecordDataCurd.save(newData);
             outGoingRecordDataCurd.save(outGoingRecordData);
 
         });
