@@ -1,6 +1,5 @@
 package com.factory.task.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.department.DepartmentView;
 import com.factory.task.service.DepartmentService;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by tianjian on 2020/2/13.
