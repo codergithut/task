@@ -80,7 +80,7 @@ public class UserManageController {
         return new RestModelTemplate<>().Success(userService.createUri(uriInfo));
     }
 
-    @PostMapping("/login")
+    @GetMapping("/login")
     public RestModelTemplate<String> loginService(@RequestParam("userName") String userName,
                                                 @RequestParam("passWord") String passWord) {
         String token = null;
