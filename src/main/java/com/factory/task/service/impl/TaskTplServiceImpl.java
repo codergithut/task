@@ -34,7 +34,7 @@ public class TaskTplServiceImpl implements TaskTplService {
         List<TaskTplDescMetaView> taskTplDescMetaViews = taskTplView.getTaskTplDescMetaViews();
         String taskCode = saveTaskTpl(taskTplView);
         saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
-        taskTplView.setTaskCode(UUID.randomUUID().toString());
+        taskTplView.setTaskCode(taskCode);
         return !StringUtils.isEmpty(saveTaskTpl(taskTplView));
 
     }
