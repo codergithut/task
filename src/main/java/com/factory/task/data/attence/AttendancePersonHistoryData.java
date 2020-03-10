@@ -1,6 +1,5 @@
 package com.factory.task.data.attence;
 
-import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +9,6 @@ import java.util.Date;
  * Created by tianjian on 2020/2/14.
  */
 @Entity
-@Data
 public class AttendancePersonHistoryData {
 
     @Id

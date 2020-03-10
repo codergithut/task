@@ -1,6 +1,5 @@
 package com.factory.task.data.user.relation;
 
-import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -9,7 +8,6 @@ import javax.persistence.Id;
  * Created by tianjian on 2020/1/15.
  */
 @Entity
-@Data
 public class RoleAndResourceRelationData {
 
     @Id

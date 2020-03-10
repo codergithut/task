@@ -1,7 +1,6 @@
 package com.factory.task.data.task;
 
 
-import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,7 +9,6 @@ import javax.persistence.Id;
  * Created by tianjian on 2020/1/13.
  */
 @Entity
-@Data
 public class TaskTplDescMetaData {
 
     /**

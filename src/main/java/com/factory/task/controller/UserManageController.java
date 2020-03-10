@@ -1,6 +1,7 @@
 package com.factory.task.controller;
 
 import com.factory.task.data.user.UserInfoData;
+import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.user.ResourceInfo;
@@ -8,7 +9,6 @@ import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
-import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,11 +80,17 @@ public class UserManageController {
     }
 
     @GetMapping("/login")
-    public RestModelTemplate<UserInfoData> loginService(@RequestParam("userName") String userName,
-                                                @RequestParam("passWord") String passWord, HttpServletRequest request) {
+    public RestModelTemplate<String> loginService(@RequestParam("userName") String userName,
+                                                @RequestParam("passWord") String passWord) {
         UserInfoData userInfoData = authResource.getUserInfoByLoginInfo(userName, passWord);
-        request.getSession().setAttribute(ConstantUtils.USERINFO, userInfoData);
-        return new RestModelTemplate<>().Success(userInfoData);
+        String token = null;
+        try {
+            token = authResource.createToken(userName, passWord);
+        } catch (UserIsNotExist userIsNotExist) {
+            userIsNotExist.printStackTrace();
+            return new RestModelTemplate<>().Fail("1001", "user is not exist");
+        }
+        return new RestModelTemplate<>().Success(token);
     }
 
     @PostMapping("/loginOut")

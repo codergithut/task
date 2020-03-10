@@ -1,7 +1,5 @@
 package com.factory.task.data.department;
 
-import lombok.Data;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,7 +7,6 @@ import javax.persistence.Id;
  * Created by tianjian on 2020/2/13.
  */
 @Entity
-@Data
 public class DepartmentData {
 
     /**

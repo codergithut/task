@@ -87,10 +87,8 @@ public class JobManagerController {
     }
 
     private String getUserCodeBySession() {
-        UserInfoData userInfoData = (UserInfoData)request.getAttribute(ConstantUtils.USERINFO);
-        return userInfoData.getUserCode();
+        String userCode = (String)request.getSession().getAttribute(ConstantUtils.USERINFO);
+        return userCode;
     }
-
-
 
 }

@@ -126,17 +126,17 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobView> findJobViewsByUserId(String userCode) {
-        List<JobData> jobDatas = (List<JobData>) jobDataCurd.findAll();
-        return jobDatas.stream().map(e -> {
-            JobView jobView = new JobView();
-            BeanUtils.copyProperties(e, jobView);
-            return jobView;
-        }).collect(Collectors.toList());
+        List<TaskInsData> jobDatas = taskInsDataCurd.findTaskInsDataByHandleUserCode(userCode);
+        return changeTaskInsToJobData(jobDatas);
     }
 
     @Override
     public List<JobView> findJobViewsByWaitMe(String userCode) {
-        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndHandleUserCode("begin",userCode);
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndHandleUserCode("Begin",userCode);
+        return changeTaskInsToJobData(taskInsDatas);
+    }
+
+    private List<JobView> changeTaskInsToJobData(List<TaskInsData> taskInsDatas) {
         if(CollectionUtils.isEmpty(taskInsDatas)) {
             return null;
         }
@@ -146,6 +146,7 @@ public class JobServiceImpl implements JobService {
             BeanUtils.copyProperties(jobData, jobView);
             return jobView;
         }).collect(Collectors.toList());
+
     }
 
     @Override
@@ -176,7 +177,7 @@ public class JobServiceImpl implements JobService {
         List<TaskTplData> taskTplDatas = new ArrayList<>();
         TaskInsData taskInsData = new TaskInsData();
         taskInsData.setTaskTplCode(taskTplData.getTaskCode());
-        taskInsData.setTaskStatus("begin");
+        taskInsData.setTaskStatus("Begin");
         taskInsData.setTaskInsCode(UUID.randomUUID().toString());
         taskInsData.setDependTaskTplCode(taskTplData.getDependTaskTplCode());
         taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());

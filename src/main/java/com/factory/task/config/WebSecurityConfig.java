@@ -21,13 +21,13 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 
         // 排除配置
         addInterceptor.excludePathPatterns("/error");
-        addInterceptor.excludePathPatterns("/login**");
         addInterceptor.excludePathPatterns("/user/**");
-        addInterceptor.excludePathPatterns("/attendance/**");
-        addInterceptor.excludePathPatterns("/inventory/**");
-        addInterceptor.excludePathPatterns("/department/**");
-        addInterceptor.excludePathPatterns("/jobManager/**");
-        addInterceptor.excludePathPatterns("/taskTpl/**");
+//        addInterceptor.excludePathPatterns("/user/**");
+//        addInterceptor.excludePathPatterns("/attendance/**");
+//        addInterceptor.excludePathPatterns("/inventory/**");
+//        addInterceptor.excludePathPatterns("/department/**");
+//        addInterceptor.excludePathPatterns("/jobManager/**");
+//        addInterceptor.excludePathPatterns("/taskTpl/**");
 
         // 拦截配置
         addInterceptor.addPathPatterns("/**");

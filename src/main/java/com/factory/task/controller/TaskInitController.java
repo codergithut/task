@@ -16,6 +16,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.factory.task.util.ConstantUtils.USERINFO;
+
 /**
  * 创建工作流模板
  * Created by tianjian on 2020/1/11.
@@ -37,9 +39,9 @@ public class TaskInitController {
      */
     @PostMapping("/create")
     public RestModelTemplate<Boolean> createTaskTpl(@RequestBody TaskTplView taskTplView, HttpServletRequest request) {
-        UserInfoData userInfoData = (UserInfoData)request.getSession().getAttribute(ConstantUtils.USERINFO);
+        String userCode = (String)request.getSession().getAttribute(USERINFO);
         taskTplView.setTaskCode(UUID.randomUUID().toString());
-        taskTplView.setPublisherUserId(userInfoData.getUserCode());
+        taskTplView.setPublisherUserId(userCode);
         taskTplView.setIsParent(true);
         taskTplView.setCreateDate(new Date());
         return new RestModelTemplate<Boolean>().Success(taskTplService.createTaskTpl(taskTplView));

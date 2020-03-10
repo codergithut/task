@@ -38,18 +38,19 @@ public class AuthResource {
             .build();
 
 
-    public String createToken(String userName, String passWord) throws UserIsLogin, UserIsNotExist {
-        if(userTokens.getIfPresent(userName) != null) {
-            throw new UserIsLogin();
-        }
+    public String createToken(String userName, String passWord) throws UserIsNotExist {
         UserInfoData user = userService.findUserByNameAndPassWord(userName, passWord);
-        String token = UUID.randomUUID().toString();
+        //String token = UUID.randomUUID().toString();
+        String token = "1a212de7-ef2d-4a88-b9ee-137c7a3f258b";
         if(user != null) {
-            tokens.put(token, userName);
-            userTokens.put(userName, token);
+            tokens.put(token, user.getUserCode());
             return token;
         }
         throw new UserIsNotExist();
+    }
+
+    public String getUserCodeByToken(String token) {
+        return tokens.getIfPresent(token);
     }
 
     public String authUserInfo(String token) {
