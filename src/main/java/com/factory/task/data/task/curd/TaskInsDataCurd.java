@@ -14,5 +14,5 @@ public interface TaskInsDataCurd extends CrudRepository<TaskInsData,String> {
 
     TaskInsData findTaskInsDataByTaskTplCodeAndJobCode(String taskTplCode, String jobCode);
 
-    List<TaskInsData> findTaskInsDataByTaskStatusAndUserCode(String taskStatus,String userCode);
+    List<TaskInsData> findTaskInsDataByTaskStatusAndHandleUserCode(String taskStatus,String userCode);
 }

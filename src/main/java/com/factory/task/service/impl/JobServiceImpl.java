@@ -103,7 +103,7 @@ public class JobServiceImpl implements JobService {
     @Override
     public List<TaskInsView> findTaskInsByStatus(String taskStatus, String userCode) {
 
-        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndUserCode(taskStatus, userCode);
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndHandleUserCode(taskStatus, userCode);
         taskInsDatas.stream().map(e -> {
             TaskInsView taskInsView = new TaskInsView();
             BeanUtils.copyProperties(e, taskInsView);
@@ -136,7 +136,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobView> findJobViewsByWaitMe(String userCode) {
-        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndUserCode("begin",userCode);
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndHandleUserCode("begin",userCode);
         if(CollectionUtils.isEmpty(taskInsDatas)) {
             return null;
         }
