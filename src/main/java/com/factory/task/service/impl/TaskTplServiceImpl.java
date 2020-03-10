@@ -87,7 +87,7 @@ public class TaskTplServiceImpl implements TaskTplService {
     @Override
     public List<TaskTplDescMetaView> getTaskDescMetaByTaskCode(String taskCode) {
 
-        return taskTplDataCurd.findTaskDescMetaDataByTaskCode(taskCode).stream().map(e -> {
+        return taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskCode).stream().map(e -> {
             TaskTplDescMetaView taskTplDescMetaView = new TaskTplDescMetaView();
             BeanUtils.copyProperties(e, taskTplDescMetaView);
             return taskTplDescMetaView;

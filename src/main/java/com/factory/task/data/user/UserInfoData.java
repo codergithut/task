@@ -4,13 +4,14 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * Created by tianjian on 2020/1/15.
  */
 @Entity
 @Data
-public class UserInfoData {
+public class UserInfoData implements Serializable {
     /**
      * 用户编码
      */

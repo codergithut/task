@@ -44,12 +44,13 @@ public class JobServiceImpl implements JobService {
 
 
     @Override
-    public Boolean createJob(JobView jobView) {
+    public Boolean createJob(JobView jobView, String pubCode) {
         if(jobDataCurd.findByJobCode(jobView.getJobCode()) != null) {
             return false;
         }
         JobData jobData = new JobData();
         BeanUtils.copyProperties(jobView, jobData);
+        jobData.setPublisherUserId(pubCode);
         return jobDataCurd.save(jobData) != null;
     }
 
@@ -100,9 +101,9 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public List<TaskInsView> findTaskInsByStatus(String taskStatus) {
+    public List<TaskInsView> findTaskInsByStatus(String taskStatus, String userCode) {
 
-        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatus(taskStatus);
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndUserCode(taskStatus, userCode);
         taskInsDatas.stream().map(e -> {
             TaskInsView taskInsView = new TaskInsView();
             BeanUtils.copyProperties(e, taskInsView);
@@ -135,7 +136,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public List<JobView> findJobViewsByWaitMe(String userCode) {
-        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatus("begin");
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndUserCode("begin",userCode);
         if(CollectionUtils.isEmpty(taskInsDatas)) {
             return null;
         }
@@ -156,13 +157,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
-    public Boolean editTaskInsByCode(String taskInsCode, String taskInsDescInfo) {
+    public Boolean editTaskInsByCode(String taskInsCode, String taskData) {
         TaskInsData taskInsData = taskInsDataCurd.findTaskInsDataByTaskInsCode(taskInsCode);
         if("Finish".equals(taskInsData.getTaskStatus())) {
             return false;
         }
-        taskInsData.setTaskInsDescInfo(taskInsDescInfo);
+        boolean checkValue = checkTaskData(taskData, taskInsData.getTaskTplCode());
+        taskInsData.setTaskData(taskData);
         return taskInsDataCurd.save(taskInsData) != null;
+    }
+
+    private boolean checkTaskData(String taskData, String taskTplCode) {
+        return false;
     }
 
 
@@ -175,6 +181,7 @@ public class JobServiceImpl implements JobService {
         taskInsData.setDependTaskTplCode(taskTplData.getDependTaskTplCode());
         taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());
         taskInsData.setJobCode(jobCode);
+        taskInsData.setHandleUserCode(taskTplData.getReceiverUserId());
         taskInsDataCurd.save(taskInsData);
         String dependTaskTplCode = taskTplData.getDependTaskTplCode();
         if(!StringUtils.isEmpty(dependTaskTplCode)) {

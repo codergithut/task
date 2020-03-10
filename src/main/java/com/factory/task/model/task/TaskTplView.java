@@ -1,5 +1,6 @@
 package com.factory.task.model.task;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,6 +57,8 @@ public class TaskTplView {
      * 是否是根节点
      */
     private Boolean isParent;
+
+    private Date createDate;
 
 
     public String getTaskCode() {
@@ -136,5 +139,13 @@ public class TaskTplView {
 
     public void setTaskTplDescMetaViews(List<TaskTplDescMetaView> taskTplDescMetaViews) {
         this.taskTplDescMetaViews = taskTplDescMetaViews;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 }

@@ -1,13 +1,16 @@
 package com.factory.task.controller;
 
+import com.factory.task.data.user.UserInfoData;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.task.JobView;
 import com.factory.task.model.task.TaskInsExtView;
 import com.factory.task.model.task.TaskInsView;
 import com.factory.task.service.JobService;
+import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,6 +25,9 @@ public class JobManagerController {
     @Autowired
     private JobService jobService;
 
+    @Autowired
+    private HttpServletRequest request;
+
     /**
      * 创建任务
      * @return
@@ -30,7 +36,7 @@ public class JobManagerController {
     public RestModelTemplate<Boolean> createJob(@RequestBody JobView jobView) {
         jobView.setJobCode(UUID.randomUUID().toString());
         jobView.setIsFinished("begin");
-        return new RestModelTemplate<Boolean>().Success(jobService.createJob(jobView));
+        return new RestModelTemplate<Boolean>().Success(jobService.createJob(jobView, getUserCodeBySession()));
     }
 
     /**
@@ -49,8 +55,8 @@ public class JobManagerController {
 
     @GetMapping("/editTaskInsInfo")
     public RestModelTemplate<Boolean> editTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode,
-                                                      @RequestParam("taskInsDescInfo") String taskInsDescInfo) {
-        return new RestModelTemplate<>().Success(jobService.editTaskInsByCode(taskInsCode,taskInsDescInfo));
+                                                      @RequestParam("taskData") String taskData) {
+        return new RestModelTemplate<>().Success(jobService.editTaskInsByCode(taskInsCode,taskData));
     }
 
     @GetMapping("/finishTaskIns")
@@ -61,7 +67,7 @@ public class JobManagerController {
     @GetMapping("/getTaskInsByStatus")
     public RestModelTemplate<List<TaskInsView>> getTaskInsByStatusAndJobCode(@RequestParam("taskStatus") String taskStatus) {
         // 根据taskStatus获取所有服务实例 比如获取所有服务状态未start 提供给页面，如果是start可以点击完成，否则就是没啥操作
-        return new RestModelTemplate<>().Success(jobService.findTaskInsByStatus(taskStatus));
+        return new RestModelTemplate<>().Success(jobService.findTaskInsByStatus(taskStatus,getUserCodeBySession()));
     }
 
 
@@ -74,10 +80,17 @@ public class JobManagerController {
     @GetMapping("/getJobList")
     public RestModelTemplate<JobView> getJobViews(@RequestParam("jobType") String jobType) {
         if(jobType.equals("1")) {
-            return new RestModelTemplate<>().Success(jobService.findJobViewsByUserId(null));
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByUserId(getUserCodeBySession()));
         } else {
-            return new RestModelTemplate<>().Success(jobService.findJobViewsByWaitMe(null));
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByWaitMe(getUserCodeBySession()));
         }
     }
+
+    private String getUserCodeBySession() {
+        UserInfoData userInfoData = (UserInfoData)request.getAttribute(ConstantUtils.USERINFO);
+        return userInfoData.getUserCode();
+    }
+
+
 
 }

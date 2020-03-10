@@ -21,7 +21,6 @@ public class TaskTplDescMetaView {
      */
     private String metaName;
 
-    private String createDate;
 
     /**
      * 描述类型 int string so on
@@ -60,11 +59,4 @@ public class TaskTplDescMetaView {
         this.taskTplDescCode = taskTplDescCode;
     }
 
-    public String getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(String createDate) {
-        this.createDate = createDate;
-    }
 }

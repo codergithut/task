@@ -12,7 +12,7 @@ import java.util.List;
  */
 public interface JobService {
     
-    Boolean createJob(JobView jobView);
+    Boolean createJob(JobView jobView, String pubCode);
 
     Boolean editJob(JobView jobView);
 
@@ -20,7 +20,7 @@ public interface JobService {
 
     Boolean finishTaskIns(String taskInsCode);
 
-    List<TaskInsView> findTaskInsByStatus(String taskStatus);
+    List<TaskInsView> findTaskInsByStatus(String taskStatus, String userCode);
 
     Boolean addTaskInsExtInfo(TaskInsExtView taskInsExt);
 

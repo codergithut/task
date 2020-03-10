@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,6 +41,7 @@ public class TaskInitController {
         taskTplView.setTaskCode(UUID.randomUUID().toString());
         taskTplView.setPublisherUserId(userInfoData.getUserCode());
         taskTplView.setIsParent(true);
+        taskTplView.setCreateDate(new Date());
         return new RestModelTemplate<Boolean>().Success(taskTplService.createTaskTpl(taskTplView));
     }
 

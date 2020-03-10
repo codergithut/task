@@ -1,9 +1,6 @@
 package com.factory.task.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.factory.task.data.user.UserInfoData;
-import com.factory.task.error.UserIsLogin;
-import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.user.ResourceInfo;
@@ -16,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -84,7 +80,7 @@ public class UserManageController {
     }
 
     @GetMapping("/login")
-    public RestModelTemplate<String> loginService(@RequestParam("userName") String userName,
+    public RestModelTemplate<UserInfoData> loginService(@RequestParam("userName") String userName,
                                                 @RequestParam("passWord") String passWord, HttpServletRequest request) {
         UserInfoData userInfoData = authResource.getUserInfoByLoginInfo(userName, passWord);
         request.getSession().setAttribute(ConstantUtils.USERINFO, userInfoData);
@@ -99,48 +95,5 @@ public class UserManageController {
         }
         return new RestModelTemplate<>().Success(authResource.clearUserLogInfo(userName));
     }
-
-    public static void main(String[] args) {
-        String uricode = "d991592c-f85e-48f6-942e-e03b37f238f8";
-        UriInfo uri = new UriInfo();
-        uri.setUriCode(uricode);
-        uri.setUriName("测试uri");
-        uri.setUriPath("/test");
-        System.out.println(JSON.toJSONString(uri));
-
-
-        List<String> uricodes = new ArrayList<>();
-        uricodes.add(uricode);
-        String resourceCode = "042a5c20-b6d4-4992-a821-0e83a1644e75";
-        ResourceInfo resourceInfo = new ResourceInfo();
-        resourceInfo.setResourceCode(resourceCode);
-        resourceInfo.setResourceName("resource Name");
-        resourceInfo.setUriCodes(uricodes);
-        System.out.println(JSON.toJSONString(resourceInfo));
-
-        String roleId = "bd8c138f-2a28-4df5-8395-f0c0c17f0503";
-        List<String> resources = new ArrayList<>();
-        resources.add(resourceCode);
-        RoleInfo roleInfo = new RoleInfo();
-        roleInfo.setRoleCode(roleId);
-        roleInfo.setRoleDesc("role desc");
-        roleInfo.setRoleName("role name");
-        roleInfo.setResourceCodes(resources);
-        System.out.println(JSON.toJSONString(roleInfo));
-
-
-
-        List<String> roles = new ArrayList<>();
-        roles.add(roleId);
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserCode(UUID.randomUUID().toString());
-        userInfo.setPassWord("HH");
-        userInfo.setSex("nan");
-        userInfo.setTelPhoneNum("12344566");
-        userInfo.setRoleCodes(roles);
-        System.out.println(JSON.toJSONString(userInfo));
-    }
-
-
 
 }

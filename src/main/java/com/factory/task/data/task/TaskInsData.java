@@ -34,9 +34,9 @@ public class TaskInsData {
     private String taskStatus;
 
     /**
-     * task描述
+     * 任务数据
      */
-    private String taskInsDescInfo;
+    private String taskData;
 
     /**
      * 工作流编号
@@ -47,6 +47,11 @@ public class TaskInsData {
      * 下一个任务编号
      */
     private String nextTaskTplCode;
+
+    /**
+     * 当前处理人
+     */
+    private String handleUserCode;
 
     public String getTaskInsCode() {
         return taskInsCode;
@@ -96,11 +101,25 @@ public class TaskInsData {
         this.nextTaskTplCode = nextTaskTplCode;
     }
 
-    public String getTaskInsDescInfo() {
-        return taskInsDescInfo;
+    public void setTaskData(String taskData) {
+        this.taskData = taskData;
     }
 
-    public void setTaskInsDescInfo(String taskInsDescInfo) {
-        this.taskInsDescInfo = taskInsDescInfo;
+    public String getTaskData() {
+        return taskData;
     }
+
+
+
+    public String getHandleUserCode() {
+        return handleUserCode;
+    }
+
+    public void setHandleUserCode(String handleUserCode) {
+        this.handleUserCode = handleUserCode;
+    }
+
+
+
+
 }
