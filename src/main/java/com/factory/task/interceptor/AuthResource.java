@@ -40,8 +40,8 @@ public class AuthResource {
 
     public String createToken(String userName, String passWord) throws UserIsNotExist {
         UserInfoData user = userService.findUserByNameAndPassWord(userName, passWord);
-        //String token = UUID.randomUUID().toString();
-        String token = "1a212de7-ef2d-4a88-b9ee-137c7a3f258b";
+        String token = UUID.randomUUID().toString();
+        //String token = "1a212de7-ef2d-4a88-b9ee-137c7a3f258b";
         if(user != null) {
             tokens.put(token, user.getUserCode());
             return token;
