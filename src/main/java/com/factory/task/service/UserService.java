@@ -7,6 +7,7 @@ import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by tianjian on 2020/1/15.
@@ -31,9 +32,11 @@ public interface UserService {
 
     UserInfoData findUserByNameAndPassWord(String userName, String passWord);
 
-    List<UserInfo> findAll();
+    List<Map<String,String>> findAll();
 
     List<UserInfoData> findUserInfoDataByDepartmentCode(String departmentCode);
 
     Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas);
+
+    Map<String,String> findUserByUserCode(String userCode);
 }

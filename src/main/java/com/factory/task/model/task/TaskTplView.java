@@ -36,7 +36,7 @@ public class TaskTplView {
     /**
      * 任务依赖
      */
-    private TaskTplView taskDependTpl;
+    private String dependTaskCode;
 
     /**
      * 发布人用户id
@@ -51,7 +51,7 @@ public class TaskTplView {
     /**
      * 子节点任务
      */
-    private TaskTplView nextTaskTpl;
+    private String nextTaskCode;
 
     /**
      * 是否是根节点
@@ -109,28 +109,12 @@ public class TaskTplView {
         this.taskDes = taskDes;
     }
 
-    public TaskTplView getTaskDependTpl() {
-        return taskDependTpl;
-    }
-
-    public void setTaskDependTpl(TaskTplView taskDependTpl) {
-        this.taskDependTpl = taskDependTpl;
-    }
-
-    public TaskTplView getNextTaskTpl() {
-        return nextTaskTpl;
-    }
-
     public Boolean getIsParent() {
         return isParent;
     }
 
     public void setIsParent(Boolean parent) {
         isParent = parent;
-    }
-
-    public void setNextTaskTpl(TaskTplView nextTaskTpl) {
-        this.nextTaskTpl = nextTaskTpl;
     }
 
     public List<TaskTplDescMetaView> getTaskTplDescMetaViews() {
@@ -147,5 +131,29 @@ public class TaskTplView {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getDependTaskCode() {
+        return dependTaskCode;
+    }
+
+    public void setDependTaskCode(String dependTaskCode) {
+        this.dependTaskCode = dependTaskCode;
+    }
+
+    public Boolean getParent() {
+        return isParent;
+    }
+
+    public void setParent(Boolean parent) {
+        isParent = parent;
+    }
+
+    public String getNextTaskCode() {
+        return nextTaskCode;
+    }
+
+    public void setNextTaskCode(String nextTaskCode) {
+        this.nextTaskCode = nextTaskCode;
     }
 }

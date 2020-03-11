@@ -24,9 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -187,15 +185,16 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public List<UserInfo> findAll() {
+    public List<Map<String,String>> findAll() {
         List<UserInfoData> userInfoDatas = (List) userInfoDataCurd.findAll();
         if(userInfoDatas.isEmpty()) {
             return null;
         }
         return userInfoDatas.stream().map(e ->  {
-            UserInfo userInfo = new UserInfo();
-            BeanUtils.copyProperties(e, userInfo);
-            return userInfo;
+            Map<String,String> data = new HashMap<>();
+            data.put("userCode", e.getUserCode());
+            data.put("userName", e.getUserName());
+            return data;
         }).collect(Collectors.toList());
     }
 
@@ -207,6 +206,14 @@ public class UserServiceImpl implements UserService{
     @Override
     public Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas) {
         return userInfoDataCurd.saveAll(userInfoDatas) != null;
+    }
+
+    @Override
+    public Map<String,String> findUserByUserCode(String userCode) {
+        Map<String,String> userData = new HashMap<>();
+        UserInfoData userInfoData = userInfoDataCurd.findByUserCode(userCode);
+        userData.put("userName", userInfoData.getUserName());
+        return userData;
     }
 
 }

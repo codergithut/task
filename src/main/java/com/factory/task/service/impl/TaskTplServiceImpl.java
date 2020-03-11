@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -52,16 +50,58 @@ public class TaskTplServiceImpl implements TaskTplService {
     }
 
     private String saveTaskTpl(TaskTplView taskTplView) {
-        String nextCode = null;
-        String dependCode = null;
-        if(taskTplView.getNextTaskTpl() != null) {
-            nextCode = saveTaskTpl(taskTplView.getNextTaskTpl());
-        }
-        if(taskTplView.getTaskDependTpl() != null) {
-            dependCode = saveTaskTpl(taskTplView.getTaskDependTpl());
+        TaskTplData taskTplData = new TaskTplData();
+        //todo 依赖的节点不能含有依赖和子节点
+        //todo 环路检查 bug
+//        if(checkTaskTplData(taskTplView)) {
+//            TaskTplData dependTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getDependTaskCode());
+//            TaskTplData nextTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getNextTaskCode());
+//            if(dependTask != null && nextTask != null) {
+//                BeanUtils.copyProperties(taskTplView, taskTplData);
+//                taskTplData.setCreateDate(new Date());
+//                taskTplData.setDependTaskTplCode(taskTplView.getDependTaskCode());
+//                taskTplData.setNextTaskTplCode(taskTplView.getNextTaskCode());
+//                taskTplData = taskTplDataCurd.save(taskTplData);
+//            }
+//        }
+
+        TaskTplData dependTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getDependTaskCode());
+        TaskTplData nextTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getNextTaskCode());
+        if(dependTask != null && nextTask != null) {
+            BeanUtils.copyProperties(taskTplView, taskTplData);
+            taskTplData.setCreateDate(new Date());
+            taskTplData.setDependTaskTplCode(taskTplView.getDependTaskCode());
+            taskTplData.setNextTaskTplCode(taskTplView.getNextTaskCode());
+            taskTplData = taskTplDataCurd.save(taskTplData);
         }
 
-        return saveData(taskTplView, nextCode, dependCode);
+        return taskTplData.getTaskCode();
+    }
+
+    private Boolean checkTaskTplData(TaskTplView taskTplView) {
+        TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getTaskCode());
+        List<String> allCodes = new ArrayList<>();
+        List<String> codes = getTaskTplDataCode(taskTplData, allCodes);
+        Set<String> codeSets = new HashSet<>(codes);
+        if(codes.size() != codeSets.size()) {
+            return false;
+        }
+        return true;
+
+    }
+
+    private List<String> getTaskTplDataCode(TaskTplData taskTplData, List<String> taskCodes) {
+        taskCodes.add(taskTplData.getTaskCode());
+        TaskTplData nextNode = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplData.getNextTaskTplCode());
+        TaskTplData dependNode = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplData.getDependTaskTplCode());
+        if(nextNode != null) {
+            taskCodes.addAll(getTaskTplDataCode(nextNode, taskCodes));
+        }
+        if(dependNode != null) {
+            taskCodes.addAll(getTaskTplDataCode(dependNode, taskCodes));
+        }
+        return taskCodes;
+
     }
 
     private String saveData(TaskTplView taskTplView, String nextCode, String dependCode) {

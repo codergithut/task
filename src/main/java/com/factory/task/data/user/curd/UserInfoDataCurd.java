@@ -13,4 +13,6 @@ public interface UserInfoDataCurd extends CrudRepository<UserInfoData,String> {
     UserInfoData findByUserNameAndPassWord(String userName, String passWord);
 
     List<UserInfoData> findByDepartmentCode(String departmentCode);
+
+    UserInfoData findByUserCode(String userCode);
 }

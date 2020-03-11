@@ -11,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -38,13 +40,16 @@ public class AuthResource {
             .build();
 
 
-    public String createToken(String userName, String passWord) throws UserIsNotExist {
+    public Map<String,String> createToken(String userName, String passWord) throws UserIsNotExist {
+        Map<String,String> userMapInfo = new HashMap<>();
         UserInfoData user = userService.findUserByNameAndPassWord(userName, passWord);
         String token = UUID.randomUUID().toString();
         //String token = "1a212de7-ef2d-4a88-b9ee-137c7a3f258b";
         if(user != null) {
             tokens.put(token, user.getUserCode());
-            return token;
+            userMapInfo.put("token", token);
+            userMapInfo.put("userCode", user.getUserCode());
+            return userMapInfo;
         }
         throw new UserIsNotExist();
     }

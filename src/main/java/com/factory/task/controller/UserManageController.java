@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -31,8 +33,13 @@ public class UserManageController {
     private AuthResource authResource;
 
     @GetMapping("/getUsers")
-    public RestModelTemplate<List<UserInfo>> getUser() {
-        return new RestModelTemplate<List<UserInfo>>().Success(userService.findAll());
+    public RestModelTemplate<List<Map<String,String>>> getUser() {
+        return new RestModelTemplate<List<Map<String,String>>>().Success(userService.findAll());
+    }
+
+    @GetMapping("/getUserByCode")
+    public RestModelTemplate<Map<String, String>> getUserInfoByCode(@RequestParam("userCode") String userCode) {
+        return new RestModelTemplate<>().Success(userService.findUserByUserCode(userCode));
     }
 
     /**
@@ -80,18 +87,18 @@ public class UserManageController {
     }
 
     @GetMapping("/login")
-    public RestModelTemplate<String> loginService(@RequestParam("userName") String userName,
-                                                @RequestParam("passWord") String passWord) {
-        UserInfoData userInfoData = authResource.getUserInfoByLoginInfo(userName, passWord);
-        String token = null;
+    public RestModelTemplate<Map<String,String>> loginService(@RequestParam("userName") String userName,
+                                                              @RequestParam("passWord") String passWord) {
+        Map<String,String> userInfo = new HashMap<>();
         try {
-            token = authResource.createToken(userName, passWord);
+            userInfo = authResource.createToken(userName, passWord);
         } catch (UserIsNotExist userIsNotExist) {
             userIsNotExist.printStackTrace();
             return new RestModelTemplate<>().Fail("1001", "user is not exist");
         }
-        return new RestModelTemplate<>().Success(token);
+        return new RestModelTemplate<>().Success(userInfo);
     }
+
 
     @PostMapping("/loginOut")
     public RestModelTemplate<Boolean> loginOutService(@RequestParam("token") String token) {
