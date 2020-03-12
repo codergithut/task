@@ -1,6 +1,5 @@
 package com.factory.task.controller;
 
-import com.factory.task.data.user.UserInfoData;
 import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
@@ -12,7 +11,6 @@ import com.factory.task.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
