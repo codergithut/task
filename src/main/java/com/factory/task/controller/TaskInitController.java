@@ -48,9 +48,9 @@ public class TaskInitController {
     }
 
     @RequestMapping("/list")
-    public RestModelTemplate<List<TaskTplView>> getAllFactoryTaskTpl() {
+    public RestModelTemplate<List<TaskTplView>> getAllFactoryTaskTpl(@RequestParam("isParent") Boolean isParent) {
         List<TaskTplView> taskTplViews = new ArrayList<>();
-        return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getParentTaskTpl());
+        return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getParentTaskTpl(isParent));
     }
 
     @RequestMapping("/getTplDescMeta")

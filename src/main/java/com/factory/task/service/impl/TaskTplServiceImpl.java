@@ -72,8 +72,8 @@ public class TaskTplServiceImpl implements TaskTplService {
     }
 
     @Override
-    public List<TaskTplView> getParentTaskTpl() {
-        return taskTplDataCurd.findTaskTplDataByIsParent(true).stream().map(e -> {
+    public List<TaskTplView> getParentTaskTpl(Boolean isParent) {
+        return taskTplDataCurd.findTaskTplDataByIsParent(isParent).stream().map(e -> {
             TaskTplView taskTplView = new TaskTplView();
             BeanUtils.copyProperties(e, taskTplView);
             return taskTplView;

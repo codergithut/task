@@ -21,7 +21,7 @@ public interface TaskTplService {
      * 获取所有根节点数据
      * @return
      */
-    List<TaskTplView> getParentTaskTpl();
+    List<TaskTplView> getParentTaskTpl(Boolean isParent);
 
     /**
      *
