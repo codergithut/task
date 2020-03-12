@@ -24,6 +24,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) {
         String token = request.getHeader(TOKEN);
+        System.out.println("filter token:" + token);
+        System.out.println("filter userCode:" + authResource.getUserCodeByToken(token));
         String uri = request.getRequestURI();
         if(token == null) {
             return false;

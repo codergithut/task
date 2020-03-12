@@ -49,6 +49,8 @@ public class AuthResource {
             tokens.put(token, user.getUserCode());
             userMapInfo.put("token", token);
             userMapInfo.put("userCode", user.getUserCode());
+            System.out.println("token:" + token);
+            System.out.println("userCode:" + user.getUserCode());
             return userMapInfo;
         }
         throw new UserIsNotExist();
