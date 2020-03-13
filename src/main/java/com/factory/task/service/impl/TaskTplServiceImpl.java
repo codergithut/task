@@ -10,6 +10,7 @@ import com.factory.task.service.TaskTplService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import java.util.*;
@@ -31,7 +32,9 @@ public class TaskTplServiceImpl implements TaskTplService {
     public Boolean createTaskTpl(TaskTplView taskTplView) {
         List<TaskTplDescMetaView> taskTplDescMetaViews = taskTplView.getTaskTplDescMetaViews();
         String taskCode = saveTaskTpl(taskTplView);
-        saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
+        if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
+            saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
+        }
         taskTplView.setTaskCode(taskCode);
         return !StringUtils.isEmpty(saveTaskTpl(taskTplView));
 

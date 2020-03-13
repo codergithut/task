@@ -144,6 +144,7 @@ public class JobServiceImpl implements JobService {
             JobData jobData = jobDataCurd.findByJobCode(e.getJobCode());
             JobView jobView = new JobView();
             BeanUtils.copyProperties(jobData, jobView);
+            jobView.setTaskInsCode(e.getTaskInsCode());
             return jobView;
         }).collect(Collectors.toList());
 

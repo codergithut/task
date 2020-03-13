@@ -37,6 +37,11 @@ public class JobView {
      */
     private Date deadLine;
 
+    /**
+     * 当前节点
+     */
+    private String taskInsCode;
+
 
     public String getJobCode() {
         return jobCode;
@@ -86,4 +91,11 @@ public class JobView {
         this.startTaskTplCode = startTaskTplCode;
     }
 
+    public String getTaskInsCode() {
+        return taskInsCode;
+    }
+
+    public void setTaskInsCode(String taskInsCode) {
+        this.taskInsCode = taskInsCode;
+    }
 }
