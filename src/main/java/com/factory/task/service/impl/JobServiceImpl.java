@@ -1,13 +1,8 @@
 package com.factory.task.service.impl;
 
-import com.factory.task.data.task.JobData;
-import com.factory.task.data.task.TaskInsData;
-import com.factory.task.data.task.TaskInsExtData;
-import com.factory.task.data.task.TaskTplData;
-import com.factory.task.data.task.curd.JobDataCurd;
-import com.factory.task.data.task.curd.TaskInsDataCurd;
-import com.factory.task.data.task.curd.TaskInsExtDataCurd;
-import com.factory.task.data.task.curd.TaskTplDataCurd;
+import com.alibaba.fastjson.JSON;
+import com.factory.task.data.task.*;
+import com.factory.task.data.task.curd.*;
 import com.factory.task.model.task.JobView;
 import com.factory.task.model.task.TaskInsExtView;
 import com.factory.task.model.task.TaskInsView;
@@ -18,9 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -41,6 +34,9 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private TaskInsExtDataCurd taskInsExtDataCurd;
+
+    @Autowired
+    private TaskTplDescMetaDataCurd taskTplDescMetaDataCurd;
 
 
     @Override
@@ -130,6 +126,18 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public List<JobView> findJobViewsByStarByMe(String userCode) {
+        List<TaskInsData> taskInsDatas = taskInsDataCurd.findTaskInsDataByTaskStatusAndHandleUserCode("Begin",userCode);
+        List<TaskInsData> filteData = taskInsDatas.stream().filter(e ->
+            !checkTaskInsExtInfo(e.getTaskInsCode())).collect(Collectors.toList());
+        if(!CollectionUtils.isEmpty(filteData)) {
+            return changeTaskInsToJobData(filteData);
+        }
+        return new ArrayList<>();
+
+    }
+
+    @Override
     public List<JobView> findJobViewsByUserId(String userCode) {
         List<TaskInsData> jobDatas = taskInsDataCurd.findTaskInsDataByHandleUserCode(userCode);
         return changeTaskInsToJobData(jobDatas);
@@ -181,7 +189,6 @@ public class JobServiceImpl implements JobService {
 
 
     private void createTaskInsByTpl(TaskTplData taskTplData, String jobCode) {
-        List<TaskTplData> taskTplDatas = new ArrayList<>();
         TaskInsData taskInsData = new TaskInsData();
         taskInsData.setTaskTplCode(taskTplData.getTaskCode());
         taskInsData.setTaskStatus("Begin");
@@ -191,6 +198,15 @@ public class JobServiceImpl implements JobService {
         taskInsData.setJobCode(jobCode);
         taskInsData.setHandleUserCode(taskTplData.getReceiverUserId());
         taskInsData.setTaskName(taskTplData.getTaskName());
+        List<TaskTplDescMetaData> taskTplDescMetaDatas = taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskTplData.getTaskCode());
+        if(!CollectionUtils.isEmpty(taskTplDescMetaDatas)) {
+            Map<String,String> params = new HashMap<>();
+            taskTplDescMetaDatas.forEach(e -> {
+                params.put(e.getMetaName(), "");
+            });
+            taskInsData.setTaskData(JSON.toJSONString(params));
+
+        }
         taskInsDataCurd.save(taskInsData);
         String dependTaskTplCode = taskTplData.getDependTaskTplCode();
         if(!StringUtils.isEmpty(dependTaskTplCode)) {

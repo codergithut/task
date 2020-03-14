@@ -88,12 +88,18 @@ public class JobManagerController {
         return new RestModelTemplate().Success(jobService.addTaskInsExtInfo(taskInsExt));
     }
 
+
+
     @GetMapping("/getJobList")
     public RestModelTemplate<JobView> getJobViews(@RequestParam("jobType") String jobType) {
         if(jobType.equals("1")) {
             return new RestModelTemplate<>().Success(jobService.findJobViewsByUserId(getUserCodeBySession()));
-        } else {
+        } else if(jobType.equals("2")){
             return new RestModelTemplate<>().Success(jobService.findJobViewsByWaitMe(getUserCodeBySession()));
+        } else if(jobType.equals("3")) {
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByStarByMe(getUserCodeBySession()));
+        } else {
+            return new RestModelTemplate<>().Success(null);
         }
     }
 
