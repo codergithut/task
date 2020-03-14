@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -73,8 +74,13 @@ public class JobManagerController {
     }
 
 
-    @PostMapping("/addTaskInsExt")
-    public RestModelTemplate<Boolean> attentionTaskInsCode(@RequestBody TaskInsExtView taskInsExt) {
+    @GetMapping("/addTaskInsExt")
+    public RestModelTemplate<Boolean> attentionTaskInsCode(@RequestParam("taskInsCode") String taskInsCode) {
+        TaskInsExtView taskInsExt = new TaskInsExtView();
+        taskInsExt.setTaskInsCode(taskInsCode);
+        taskInsExt.setDate(new Date());
+        taskInsExt.setTaskInsExtDesc("star task");
+        taskInsExt.setType("star");
         taskInsExt.setTaskInsExtCode(UUID.randomUUID().toString());
         return new RestModelTemplate().Success(jobService.addTaskInsExtInfo(taskInsExt));
     }
