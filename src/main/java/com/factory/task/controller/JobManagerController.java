@@ -76,6 +76,9 @@ public class JobManagerController {
 
     @GetMapping("/addTaskInsExt")
     public RestModelTemplate<Boolean> attentionTaskInsCode(@RequestParam("taskInsCode") String taskInsCode) {
+        if(jobService.checkTaskInsExtInfo(taskInsCode)) {
+            return new RestModelTemplate<>().Success(false);
+        }
         TaskInsExtView taskInsExt = new TaskInsExtView();
         taskInsExt.setTaskInsCode(taskInsCode);
         taskInsExt.setDate(new Date());
