@@ -41,11 +41,9 @@ public class TaskTplServiceImpl implements TaskTplService {
     }
 
     private void saveTaskTplDescMeta(List<TaskTplDescMetaView> taskTplDescMetaViews, String taskCode) {
-        String taskTplDescMetaId = UUID.randomUUID().toString();
         taskTplDescMetaViews.stream().forEach(e -> {
             TaskTplDescMetaData taskTplDescMetaData = new TaskTplDescMetaData();
             BeanUtils.copyProperties(e, taskTplDescMetaData);
-            taskTplDescMetaData.setTaskTplDescCode(taskTplDescMetaId);
             taskTplDescMetaData.setTaskCode(taskCode);
             taskTplDescMetaData.setTaskTplDescCode(UUID.randomUUID().toString());
             taskTplDescMetaDataCurd.save(taskTplDescMetaData);
