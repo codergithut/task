@@ -1,6 +1,5 @@
 package com.factory.task.controller;
 
-import com.factory.task.data.user.UserInfoData;
 import com.factory.task.model.RestModelTemplate;
 import com.factory.task.model.task.JobView;
 import com.factory.task.model.task.TaskInsExtView;
@@ -42,28 +41,32 @@ public class JobManagerController {
         return new RestModelTemplate<Boolean>().Success(true);
     }
 
-    /**
-     * 创建任务 生成所有模版任务并初始化值
-     * @return
-     */
-    @GetMapping("/startJob")
-    public RestModelTemplate startFactoryJobtpl(@RequestParam("jobCode") String jobCode) {
-        return new RestModelTemplate<>().Success(jobService.startJob(jobCode));
-    }
 
     @GetMapping("/getTaskInsInfo")
     public RestModelTemplate<TaskInsView> getTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode) {
+        String userCode = getUserCodeBySession();
+        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+            return new RestModelTemplate<>().Success(false);
+        }
         return new RestModelTemplate<>().Success(jobService.findTaskInsByCode(taskInsCode));
     }
 
     @GetMapping("/editTaskInsInfo")
     public RestModelTemplate<Boolean> editTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode,
                                                       @RequestParam("taskData") String taskData) {
+        String userCode = getUserCodeBySession();
+        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+            return new RestModelTemplate<>().Success(false);
+        }
         return new RestModelTemplate<>().Success(jobService.editTaskInsByCode(taskInsCode,taskData));
     }
 
     @GetMapping("/finishTaskIns")
     public RestModelTemplate<Boolean> finishTaskIns(@RequestParam("taskInsCode") String taskInsCode) {
+        String userCode = getUserCodeBySession();
+        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+            return new RestModelTemplate<>().Success(false);
+        }
         return new RestModelTemplate<>().Success(jobService.finishTaskIns(taskInsCode));
     }
 
@@ -79,6 +82,11 @@ public class JobManagerController {
         if(jobService.checkTaskInsExtInfo(taskInsCode)) {
             return new RestModelTemplate<>().Success(false);
         }
+        String userCode = getUserCodeBySession();
+        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+            return new RestModelTemplate<>().Success(false);
+        }
+
         TaskInsExtView taskInsExt = new TaskInsExtView();
         taskInsExt.setTaskInsCode(taskInsCode);
         taskInsExt.setDate(new Date());

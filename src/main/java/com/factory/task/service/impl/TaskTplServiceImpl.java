@@ -52,9 +52,6 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     private String saveTaskTpl(TaskTplView taskTplView) {
         TaskTplData taskTplData = new TaskTplData();
-        //todo 依赖的节点不能含有依赖和子节点
-        //todo 环路检查 bug
-
         TaskTplData dependTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getDependTaskCode());
         TaskTplData nextTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getNextTaskCode());
         BeanUtils.copyProperties(taskTplView, taskTplData);
@@ -83,11 +80,11 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     @Override
     public List<TaskTplDescMetaView> getTaskDescMetaByTaskCode(String taskCode) {
-
-        return taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskCode).stream().map(e -> {
+        List<TaskTplDescMetaView> datas = taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskCode).stream().map(e -> {
             TaskTplDescMetaView taskTplDescMetaView = new TaskTplDescMetaView();
             BeanUtils.copyProperties(e, taskTplDescMetaView);
             return taskTplDescMetaView;
         }).collect(Collectors.toList());
+        return datas;
     }
 }

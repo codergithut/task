@@ -35,4 +35,6 @@ public interface JobService {
     Boolean checkTaskInsExtInfo(String taskInsCode);
 
     List<JobView> findJobViewsByStarByMe(String userCodeBySession);
+
+    Boolean checkTaskInsInfoAndUser(String taskInsCode, String userCode);
 }

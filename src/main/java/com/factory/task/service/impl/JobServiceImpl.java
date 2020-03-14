@@ -138,6 +138,12 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    public Boolean checkTaskInsInfoAndUser(String taskInsCode, String userCode) {
+        TaskInsData taskInsData = taskInsDataCurd.findTaskInsDataByTaskInsCode(taskInsCode);
+        return taskInsData.getHandleUserCode().equals(userCode);
+    }
+
+    @Override
     public List<JobView> findJobViewsByUserId(String userCode) {
         List<TaskInsData> jobDatas = taskInsDataCurd.findTaskInsDataByHandleUserCode(userCode);
         return changeTaskInsToJobData(jobDatas);
