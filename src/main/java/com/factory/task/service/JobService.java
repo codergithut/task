@@ -31,4 +31,6 @@ public interface JobService {
     TaskInsView findTaskInsByCode(String taskInsCode);
 
     Boolean editTaskInsByCode(String taskInsCode, String taskInsDescInfo);
+
+    Boolean checkTaskInsExtInfo(String taskInsCode);
 }

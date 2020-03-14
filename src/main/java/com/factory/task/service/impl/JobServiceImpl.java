@@ -124,6 +124,11 @@ public class JobServiceImpl implements JobService {
         return taskInsExtDataCurd.save(taskInsExtData) != null;
     }
 
+    public Boolean checkTaskInsExtInfo(String taskInsCode) {
+        List<TaskInsExtData> taskInsExtDatas = taskInsExtDataCurd.findByTaskInsCode(taskInsCode);
+        return CollectionUtils.isEmpty(taskInsExtDatas);
+    }
+
     @Override
     public List<JobView> findJobViewsByUserId(String userCode) {
         List<TaskInsData> jobDatas = taskInsDataCurd.findTaskInsDataByHandleUserCode(userCode);
