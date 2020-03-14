@@ -37,6 +37,11 @@ public class TaskInsData {
     private String taskData;
 
     /**
+     * 任务名称
+     */
+    private String taskName;
+
+    /**
      * 工作流编号
      */
     private String jobCode;
@@ -107,7 +112,13 @@ public class TaskInsData {
         return taskData;
     }
 
+    public String getTaskName() {
+        return taskName;
+    }
 
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
 
     public String getHandleUserCode() {
         return handleUserCode;

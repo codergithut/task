@@ -31,6 +31,11 @@ public class TaskInsView {
     private String nextTaskTplCode;
 
     /**
+     * 任务名称
+     */
+    private String taskName;
+
+    /**
      * 实例数据
      */
     private String taskData;
@@ -81,5 +86,13 @@ public class TaskInsView {
 
     public void setTaskData(String taskData) {
         this.taskData = taskData;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 }

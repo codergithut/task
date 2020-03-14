@@ -42,6 +42,11 @@ public class JobView {
      */
     private String taskInsCode;
 
+    /**
+     * 当前节点名称
+     */
+    private String taskName;
+
 
     public String getJobCode() {
         return jobCode;
@@ -97,5 +102,13 @@ public class JobView {
 
     public void setTaskInsCode(String taskInsCode) {
         this.taskInsCode = taskInsCode;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 }

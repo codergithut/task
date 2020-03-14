@@ -145,6 +145,7 @@ public class JobServiceImpl implements JobService {
             JobView jobView = new JobView();
             BeanUtils.copyProperties(jobData, jobView);
             jobView.setTaskInsCode(e.getTaskInsCode());
+            jobView.setTaskName(e.getTaskName());
             return jobView;
         }).collect(Collectors.toList());
 
@@ -184,6 +185,7 @@ public class JobServiceImpl implements JobService {
         taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());
         taskInsData.setJobCode(jobCode);
         taskInsData.setHandleUserCode(taskTplData.getReceiverUserId());
+        taskInsData.setTaskName(taskTplData.getTaskName());
         taskInsDataCurd.save(taskInsData);
         String dependTaskTplCode = taskTplData.getDependTaskTplCode();
         if(!StringUtils.isEmpty(dependTaskTplCode)) {
