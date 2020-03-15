@@ -45,9 +45,9 @@ public class JobManagerController {
     @GetMapping("/getTaskInsInfo")
     public RestModelTemplate<TaskInsView> getTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode) {
         String userCode = getUserCodeBySession();
-        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
-            return new RestModelTemplate<>().Success(false);
-        }
+//        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+//            return new RestModelTemplate<>().Success(false);
+//        }
         return new RestModelTemplate<>().Success(jobService.findTaskInsByCode(taskInsCode));
     }
 
@@ -55,18 +55,18 @@ public class JobManagerController {
     public RestModelTemplate<Boolean> editTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode,
                                                       @RequestParam("taskData") String taskData) {
         String userCode = getUserCodeBySession();
-        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
-            return new RestModelTemplate<>().Success(false);
-        }
+//        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+//            return new RestModelTemplate<>().Success(false);
+//        }
         return new RestModelTemplate<>().Success(jobService.editTaskInsByCode(taskInsCode,taskData));
     }
 
     @GetMapping("/finishTaskIns")
     public RestModelTemplate<Boolean> finishTaskIns(@RequestParam("taskInsCode") String taskInsCode) {
         String userCode = getUserCodeBySession();
-        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
-            return new RestModelTemplate<>().Success(false);
-        }
+//        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+//            return new RestModelTemplate<>().Success(false);
+//        }
         return new RestModelTemplate<>().Success(jobService.finishTaskIns(taskInsCode));
     }
 
