@@ -28,15 +28,15 @@ public class AuthResource {
 
 
     Cache<String, String> tokens = CacheBuilder.newBuilder()
-            .expireAfterWrite(2000, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
             .build();
 
     Cache<String, String> userTokens = CacheBuilder.newBuilder()
-            .expireAfterWrite(2000, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
             .build();
 
     Cache<String, List<String>> auths = CacheBuilder.newBuilder()
-            .expireAfterWrite(2000, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
             .build();
 
 
