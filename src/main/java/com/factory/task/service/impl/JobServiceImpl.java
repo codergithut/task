@@ -184,7 +184,7 @@ public class JobServiceImpl implements JobService {
         TaskInsView taskInsView = new TaskInsView();
         BeanUtils.copyProperties(taskInsData, taskInsView);
         List<TaskInsExtData> taskInsExtDatas = taskInsExtDataCurd.findByTaskInsCode(taskInsCode);
-        taskInsView.setStar(CollectionUtils.isEmpty(taskInsExtDatas));
+        taskInsView.setStar(!CollectionUtils.isEmpty(taskInsExtDatas));
         return taskInsView;
     }
 
