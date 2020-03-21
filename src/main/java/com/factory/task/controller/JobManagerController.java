@@ -79,13 +79,13 @@ public class JobManagerController {
 
     @GetMapping("/addTaskInsExt")
     public RestModelTemplate<Boolean> attentionTaskInsCode(@RequestParam("taskInsCode") String taskInsCode) {
-        if(jobService.checkTaskInsExtInfo(taskInsCode)) {
-            return new RestModelTemplate<>().Success(false);
-        }
-        String userCode = getUserCodeBySession();
-        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
-            return new RestModelTemplate<>().Success(false);
-        }
+//        if(jobService.checkTaskInsExtInfo(taskInsCode)) {
+//            return new RestModelTemplate<>().Success(false);
+//        }
+//        String userCode = getUserCodeBySession();
+//        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
+//            return new RestModelTemplate<>().Success(false);
+//        }
 
         TaskInsExtView taskInsExt = new TaskInsExtView();
         taskInsExt.setTaskInsCode(taskInsCode);
