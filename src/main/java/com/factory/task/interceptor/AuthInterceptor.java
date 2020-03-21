@@ -1,8 +1,6 @@
 package com.factory.task.interceptor;
 
 import com.alibaba.fastjson.JSON;
-import com.factory.task.data.user.UserInfoData;
-import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
