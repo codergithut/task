@@ -10,6 +10,7 @@ import com.factory.task.service.JobService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -147,6 +148,7 @@ public class JobServiceImpl implements JobService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteTaskInsExtInfo(String taskInsCode) {
         return taskInsExtDataCurd.deleteByTaskInsCode(taskInsCode) > 0;
     }
