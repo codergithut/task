@@ -223,12 +223,15 @@ public class JobServiceImpl implements JobService {
 
         }
         taskInsDataCurd.save(taskInsData);
-        List<String> dependTaskTplCodes = JSON.parseArray(taskTplData.getDependTaskTplCode(),String.class);
-        if(!CollectionUtils.isEmpty(dependTaskTplCodes)) {
-            dependTaskTplCodes.forEach(e -> {
-                TaskTplData depTaskTpl = taskTplDataCurd.findTaskTplDataByTaskCode(e);
-                createTaskInsByTpl(depTaskTpl, jobCode);
-            });
+
+        if(!StringUtils.isEmpty(taskTplData.getDependTaskTplCode())) {
+            List<String> dependTaskTplCodes = JSON.parseArray(taskTplData.getDependTaskTplCode(),String.class);
+            if(!CollectionUtils.isEmpty(dependTaskTplCodes)) {
+                dependTaskTplCodes.forEach(e -> {
+                    TaskTplData depTaskTpl = taskTplDataCurd.findTaskTplDataByTaskCode(e);
+                    createTaskInsByTpl(depTaskTpl, jobCode);
+                });
+            }
         }
 
     }

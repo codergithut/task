@@ -8,9 +8,11 @@ import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
+import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +31,9 @@ public class UserManageController {
 
     @Autowired
     private AuthResource authResource;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @GetMapping("/getUsers")
     public RestModelTemplate<List<Map<String,String>>> getUser() {
@@ -96,7 +101,6 @@ public class UserManageController {
         }
         return new RestModelTemplate<>().Success(userInfo);
     }
-
 
     @PostMapping("/loginOut")
     public RestModelTemplate<Boolean> loginOutService(@RequestParam("token") String token) {
