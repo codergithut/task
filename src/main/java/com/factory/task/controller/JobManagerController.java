@@ -96,7 +96,10 @@ public class JobManagerController {
         return new RestModelTemplate().Success(jobService.addTaskInsExtInfo(taskInsExt));
     }
 
-
+    @GetMapping("/deleteTaskInsExt")
+    public RestModelTemplate<Boolean> deleteTaskInsCode(@RequestParam("taskInsCode") String taskInsCode) {
+        return new RestModelTemplate().Success(jobService.deleteTaskInsExtInfo(taskInsCode));
+    }
 
     @GetMapping("/getJobList")
     public RestModelTemplate<JobView> getJobViews(@RequestParam("jobType") String jobType) {

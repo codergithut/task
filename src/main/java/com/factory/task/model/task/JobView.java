@@ -47,6 +47,11 @@ public class JobView {
      */
     private String taskName;
 
+    /**
+     * job数据
+     */
+    private String jobData;
+
 
     public String getJobCode() {
         return jobCode;
@@ -110,5 +115,13 @@ public class JobView {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public String getJobData() {
+        return jobData;
+    }
+
+    public void setJobData(String jobData) {
+        this.jobData = jobData;
     }
 }

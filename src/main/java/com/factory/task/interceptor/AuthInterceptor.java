@@ -28,9 +28,13 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         System.out.println("filter userCode:" + authResource.getUserCodeByToken(token));
         String uri = request.getRequestURI();
         if(token == null) {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(403);
             return false;
         }
         if(StringUtils.isEmpty(authResource.getUserCodeByToken(token))) {
+            response.setContentType("application/json;charset=utf-8");
+            response.setStatus(403);
             return false;
         }
         request.getSession().setAttribute(USERINFO, authResource.getUserCodeByToken(token));

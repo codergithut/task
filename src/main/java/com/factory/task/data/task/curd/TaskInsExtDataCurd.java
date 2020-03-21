@@ -11,4 +11,6 @@ import java.util.List;
 public interface TaskInsExtDataCurd extends CrudRepository<TaskInsExtData,String> {
 
     List<TaskInsExtData> findByTaskInsCode(String taskInsCode);
+
+    int deleteByTaskInsCode(String taskInsCode);
 }

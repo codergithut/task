@@ -36,7 +36,7 @@ public class TaskTplView {
     /**
      * 任务依赖
      */
-    private String dependTaskCode;
+    private List<String> dependTaskCodes;
 
     /**
      * 发布人用户id
@@ -58,6 +58,9 @@ public class TaskTplView {
      */
     private Boolean isParent;
 
+    /**
+     * 创建时间
+     */
     private Date createDate;
 
 
@@ -133,14 +136,6 @@ public class TaskTplView {
         this.createDate = createDate;
     }
 
-    public String getDependTaskCode() {
-        return dependTaskCode;
-    }
-
-    public void setDependTaskCode(String dependTaskCode) {
-        this.dependTaskCode = dependTaskCode;
-    }
-
     public Boolean getParent() {
         return isParent;
     }
@@ -155,5 +150,13 @@ public class TaskTplView {
 
     public void setNextTaskCode(String nextTaskCode) {
         this.nextTaskCode = nextTaskCode;
+    }
+
+    public List<String> getDependTaskCodes() {
+        return dependTaskCodes;
+    }
+
+    public void setDependTaskCodes(List<String> dependTaskCodes) {
+        this.dependTaskCodes = dependTaskCodes;
     }
 }

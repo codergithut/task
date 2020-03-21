@@ -47,6 +47,11 @@ public class JobData {
      */
     private Date deadLine;
 
+    /**
+     * job数据
+     */
+    private String jobData;
+
     public String getJobCode() {
         return jobCode;
     }
@@ -101,5 +106,13 @@ public class JobData {
 
     public void setPublisherUserId(String publisherUserId) {
         this.publisherUserId = publisherUserId;
+    }
+
+    public String getJobData() {
+        return jobData;
+    }
+
+    public void setJobData(String jobData) {
+        this.jobData = jobData;
     }
 }

@@ -40,6 +40,8 @@ public class TaskInsView {
      */
     private String taskData;
 
+    private Boolean isStar;
+
     public String getTaskInsCode() {
         return taskInsCode;
     }
@@ -94,5 +96,13 @@ public class TaskInsView {
 
     public void setTaskName(String taskName) {
         this.taskName = taskName;
+    }
+
+    public Boolean getStar() {
+        return isStar;
+    }
+
+    public void setStar(Boolean star) {
+        isStar = star;
     }
 }

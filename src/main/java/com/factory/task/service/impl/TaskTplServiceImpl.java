@@ -1,5 +1,6 @@
 package com.factory.task.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.factory.task.data.task.TaskTplData;
 import com.factory.task.data.task.TaskTplDescMetaData;
 import com.factory.task.data.task.curd.TaskTplDataCurd;
@@ -52,14 +53,15 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     private String saveTaskTpl(TaskTplView taskTplView) {
         TaskTplData taskTplData = new TaskTplData();
-        TaskTplData dependTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getDependTaskCode());
-        TaskTplData nextTask = taskTplDataCurd.findTaskTplDataByTaskCode(taskTplView.getNextTaskCode());
+        String dependTasks = JSON.toJSONString(taskTplView.getDependTaskCodes());
+        String nextTask = taskTplView.getNextTaskCode();
         BeanUtils.copyProperties(taskTplView, taskTplData);
         taskTplData.setCreateDate(new Date());
         taskTplData.setDependTaskTplCode(null);
         taskTplData.setNextTaskTplCode(null);
-        if(dependTask != null) {
-            taskTplData.setDependTaskTplCode(dependTask.getTaskCode());
+        //todo 模版需要校验
+        if(dependTasks != null) {
+            taskTplData.setDependTaskTplCode(dependTasks);
         }
         if(nextTask != null) {
             taskTplData.setNextTaskTplCode(taskTplView.getNextTaskCode());
