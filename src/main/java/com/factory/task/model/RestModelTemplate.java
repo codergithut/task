@@ -65,4 +65,8 @@ public class RestModelTemplate<T> {
     public static RestModelTemplate FailUserInfoCheck() {
         return new RestModelTemplate(USER_INFO_ERROR.getCode(), USER_INFO_ERROR.getDesc());
     }
+
+    public static RestModelTemplate OK() {
+        return new RestModelTemplate().Success(true);
+    }
 }

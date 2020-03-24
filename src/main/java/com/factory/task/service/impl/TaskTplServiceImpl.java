@@ -18,6 +18,8 @@ import org.springframework.util.StringUtils;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static com.factory.task.TaskType.DEPEND;
+
 /**
  * Created by tianjian on 2020/1/13.
  */
@@ -39,6 +41,11 @@ public class TaskTplServiceImpl implements TaskTplService {
         }
         if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
             saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
+        }
+        if(DEPEND.getType().equals(taskTplView.getTaskType())) {
+            if(taskTplView.getNextTaskCode() != null || taskTplView.getDependTaskCodes() != null) {
+                return false;
+            }
         }
         taskTplView.setTaskCode(taskCode);
         return !StringUtils.isEmpty(saveTaskTpl(taskTplView));
@@ -81,7 +88,7 @@ public class TaskTplServiceImpl implements TaskTplService {
         if(isParent) {
             taskType = TaskType.NODE.getType();
         }else {
-            taskType = TaskType.DEPEND.getType();
+            taskType = DEPEND.getType();
         }
 
         return taskTplDataCurd.findTaskTplDataByTaskType(taskType).stream().map(e -> {

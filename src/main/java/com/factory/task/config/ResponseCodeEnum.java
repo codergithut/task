@@ -6,9 +6,9 @@ package com.factory.task.config;
 public enum ResponseCodeEnum {
 
     USER_INFO_ERROR("1000", "用户验证数据错误"),
-    TEMPLATE_NULL_ERROR("1001", "模版为空"),
     OK("0000", "成功"),
-    DEPEND_TASK_ERROR("1002", "依赖任务未完成");
+    DEPEND_TASK_ERROR("1001", "依赖任务未完成"),
+    TASK_TPL_ERROR("1002", "模版数据有误");
 
     private String code;
 

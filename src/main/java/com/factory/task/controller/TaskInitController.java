@@ -9,11 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.factory.task.config.ResponseCodeEnum.TASK_TPL_ERROR;
 import static com.factory.task.util.ConstantUtils.USERINFO;
 
 /**
@@ -42,12 +42,15 @@ public class TaskInitController {
         taskTplView.setPublisherUserId(userCode);
         taskTplView.setIsParent(true);
         taskTplView.setCreateDate(new Date());
-        return new RestModelTemplate<Boolean>().Success(taskTplService.createTaskTpl(taskTplView));
+        if(taskTplService.createTaskTpl(taskTplView)) {
+            return RestModelTemplate.OK();
+        } else {
+            return new RestModelTemplate(TASK_TPL_ERROR.getCode(), TASK_TPL_ERROR.getDesc());
+        }
     }
 
     @RequestMapping("/list")
     public RestModelTemplate<List<TaskTplView>> getAllFactoryTaskTpl(@RequestParam("isParent") Boolean isParent) {
-        List<TaskTplView> taskTplViews = new ArrayList<>();
         return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getParentTaskTpl(isParent));
     }
 
