@@ -219,6 +219,7 @@ public class JobServiceImpl implements JobService {
             taskTplDescMetaDatas.forEach(e -> {
                 params.put(e.getMetaName(), "");
             });
+            System.out.println("=========================");
             taskInsData.setTaskData(JSON.toJSONString(params));
 
         }
