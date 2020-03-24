@@ -42,9 +42,6 @@ public class JobServiceImpl implements JobService {
 
     @Override
     public Boolean createJob(JobView jobView, String pubCode) {
-        if(jobDataCurd.findByJobCode(jobView.getJobCode()) != null) {
-            return false;
-        }
         JobData jobData = new JobData();
         BeanUtils.copyProperties(jobView, jobData);
         jobData.setPublisherUserId(pubCode);
