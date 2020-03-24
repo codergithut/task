@@ -211,6 +211,9 @@ public class JobServiceImpl implements JobService {
         taskInsData.setTaskInsCode(UUID.randomUUID().toString());
         taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());
         taskInsData.setJobCode(jobCode);
+        if(!StringUtils.isEmpty(taskTplData.getDependTaskTplCode())) {
+            taskInsData.setDependTaskTplCode(taskTplData.getDependTaskTplCode());
+        }
         taskInsData.setHandleUserCode(taskTplData.getReceiverUserId());
         taskInsData.setTaskName(taskTplData.getTaskName());
         List<TaskTplDescMetaData> taskTplDescMetaDatas = taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskTplData.getTaskCode());

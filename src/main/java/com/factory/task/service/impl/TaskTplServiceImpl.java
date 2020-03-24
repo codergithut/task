@@ -34,7 +34,7 @@ public class TaskTplServiceImpl implements TaskTplService {
     public Boolean createTaskTpl(TaskTplView taskTplView) {
         List<TaskTplDescMetaView> taskTplDescMetaViews = taskTplView.getTaskTplDescMetaViews();
         String taskCode = saveTaskTpl(taskTplView);
-        if(TaskType.checkType(taskTplView.getTaskType())) {
+        if(!TaskType.checkType(taskTplView.getTaskType())) {
             return false;
         }
         if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
