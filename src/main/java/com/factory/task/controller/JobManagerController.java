@@ -5,7 +5,6 @@ import com.factory.task.model.task.JobView;
 import com.factory.task.model.task.TaskInsExtView;
 import com.factory.task.model.task.TaskInsView;
 import com.factory.task.service.JobService;
-import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
 /**
  * Created by tianjian on 2020/1/11.
@@ -36,7 +37,7 @@ public class JobManagerController {
     public RestModelTemplate<Boolean> createJob(@RequestBody JobView jobView) {
         jobView.setJobCode(UUID.randomUUID().toString());
         jobView.setIsFinished("Begin");
-        jobService.createJob(jobView, getUserCodeBySession());
+        jobService.createJob(jobView, getUserCodeBySession(request));
         jobService.startJob(jobView.getJobCode());
         return new RestModelTemplate<Boolean>().Success(true);
     }
@@ -44,7 +45,7 @@ public class JobManagerController {
 
     @GetMapping("/getTaskInsInfo")
     public RestModelTemplate<TaskInsView> getTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode) {
-        String userCode = getUserCodeBySession();
+        String userCode = getUserCodeBySession(request);
 //        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
 //            return new RestModelTemplate<>().Success(false);
 //        }
@@ -54,7 +55,7 @@ public class JobManagerController {
     @GetMapping("/editTaskInsInfo")
     public RestModelTemplate<Boolean> editTaskInsInfo(@RequestParam("taskInsCode") String taskInsCode,
                                                       @RequestParam("taskData") String taskData) {
-        String userCode = getUserCodeBySession();
+        String userCode = getUserCodeBySession(request);
 //        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
 //            return new RestModelTemplate<>().Success(false);
 //        }
@@ -63,7 +64,7 @@ public class JobManagerController {
 
     @GetMapping("/finishTaskIns")
     public RestModelTemplate<Boolean> finishTaskIns(@RequestParam("taskInsCode") String taskInsCode) {
-        String userCode = getUserCodeBySession();
+        String userCode = getUserCodeBySession(request);
 //        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
 //            return new RestModelTemplate<>().Success(false);
 //        }
@@ -73,7 +74,7 @@ public class JobManagerController {
     @GetMapping("/getTaskInsByStatus")
     public RestModelTemplate<List<TaskInsView>> getTaskInsByStatusAndJobCode(@RequestParam("taskStatus") String taskStatus) {
         // 根据taskStatus获取所有服务实例 比如获取所有服务状态未start 提供给页面，如果是start可以点击完成，否则就是没啥操作
-        return new RestModelTemplate<>().Success(jobService.findTaskInsByStatus(taskStatus,getUserCodeBySession()));
+        return new RestModelTemplate<>().Success(jobService.findTaskInsByStatus(taskStatus,getUserCodeBySession(request)));
     }
 
 
@@ -104,19 +105,14 @@ public class JobManagerController {
     @GetMapping("/getJobList")
     public RestModelTemplate<JobView> getJobViews(@RequestParam("jobType") String jobType) {
         if(jobType.equals("1")) {
-            return new RestModelTemplate<>().Success(jobService.findJobViewsByUserId(getUserCodeBySession()));
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByUserId(getUserCodeBySession(request)));
         } else if(jobType.equals("2")){
-            return new RestModelTemplate<>().Success(jobService.findJobViewsByWaitMe(getUserCodeBySession()));
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByWaitMe(getUserCodeBySession(request)));
         } else if(jobType.equals("3")) {
-            return new RestModelTemplate<>().Success(jobService.findJobViewsByStarByMe(getUserCodeBySession()));
+            return new RestModelTemplate<>().Success(jobService.findJobViewsByStarByMe(getUserCodeBySession(request)));
         } else {
             return new RestModelTemplate<>().Success(null);
         }
-    }
-
-    private String getUserCodeBySession() {
-        String userCode = (String)request.getSession().getAttribute(ConstantUtils.USERINFO);
-        return userCode;
     }
 
 }

@@ -16,4 +16,5 @@ public interface TaskTplDataCurd  extends CrudRepository<TaskTplData,String> {
 
     TaskTplData findTaskTplDataByTaskCode(String taskCode);
 
+    List<TaskTplData> findTaskTplDataByTaskType(String taskType);
 }

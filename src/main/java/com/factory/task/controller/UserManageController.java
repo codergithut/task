@@ -8,7 +8,6 @@ import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
-import com.factory.task.util.ConstantUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import static com.factory.task.model.RestModelTemplate.FailUserInfoCheck;
+import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
 /**
  * Created by tianjian on 2020/1/15.
@@ -97,16 +98,17 @@ public class UserManageController {
             userInfo = authResource.createToken(userName, passWord);
         } catch (UserIsNotExist userIsNotExist) {
             userIsNotExist.printStackTrace();
-            return new RestModelTemplate<>().Fail("1001", "user is not exist");
+            return FailUserInfoCheck();
         }
         return new RestModelTemplate<>().Success(userInfo);
     }
 
     @PostMapping("/loginOut")
-    public RestModelTemplate<Boolean> loginOutService(@RequestParam("token") String token) {
+    public RestModelTemplate<Boolean> loginOutService() {
+        String token = getUserCodeBySession(request);
         String userName = authResource.authUserInfo(token);
         if(userName == null) {
-            return new RestModelTemplate<>().Fail("004", "用户不存在");
+            return FailUserInfoCheck();
         }
         return new RestModelTemplate<>().Success(authResource.clearUserLogInfo(userName));
     }

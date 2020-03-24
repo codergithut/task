@@ -1,6 +1,7 @@
 package com.factory.task.service.impl;
 
 import com.alibaba.fastjson.JSON;
+import com.factory.task.TaskType;
 import com.factory.task.data.task.TaskTplData;
 import com.factory.task.data.task.TaskTplDescMetaData;
 import com.factory.task.data.task.curd.TaskTplDataCurd;
@@ -33,6 +34,9 @@ public class TaskTplServiceImpl implements TaskTplService {
     public Boolean createTaskTpl(TaskTplView taskTplView) {
         List<TaskTplDescMetaView> taskTplDescMetaViews = taskTplView.getTaskTplDescMetaViews();
         String taskCode = saveTaskTpl(taskTplView);
+        if(TaskType.checkType(taskTplView.getTaskType())) {
+            return false;
+        }
         if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
             saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
         }
@@ -73,7 +77,14 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     @Override
     public List<TaskTplView> getParentTaskTpl(Boolean isParent) {
-        return taskTplDataCurd.findTaskTplDataByIsParent(isParent).stream().map(e -> {
+        String taskType = null;
+        if(isParent) {
+            taskType = TaskType.NODE.getType();
+        }else {
+            taskType = TaskType.DEPEND.getType();
+        }
+
+        return taskTplDataCurd.findTaskTplDataByTaskType(taskType).stream().map(e -> {
             TaskTplView taskTplView = new TaskTplView();
             BeanUtils.copyProperties(e, taskTplView);
             return taskTplView;
