@@ -215,6 +215,7 @@ public class JobServiceImpl implements JobService {
         taskInsData.setTaskName(taskTplData.getTaskName());
         List<TaskTplDescMetaData> taskTplDescMetaDatas = taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskTplData.getTaskCode());
         if(!CollectionUtils.isEmpty(taskTplDescMetaDatas)) {
+            System.out.println("=========================");
             System.out.println(JSON.toJSONString(taskTplDescMetaDatas));
             Map<String,String> params = new HashMap<>();
             taskTplDescMetaDatas.forEach(e -> {
