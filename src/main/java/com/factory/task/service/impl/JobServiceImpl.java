@@ -214,17 +214,17 @@ public class JobServiceImpl implements JobService {
         taskInsData.setHandleUserCode(taskTplData.getReceiverUserId());
         taskInsData.setTaskName(taskTplData.getTaskName());
         List<TaskTplDescMetaData> taskTplDescMetaDatas = taskTplDescMetaDataCurd.findTaskDescMetaDataByTaskCode(taskTplData.getTaskCode());
-//        if(!CollectionUtils.isEmpty(taskTplDescMetaDatas)) {
-//            System.out.println("=========================");
-//            System.out.println(JSON.toJSONString(taskTplDescMetaDatas));
-//            Map<String,String> params = new HashMap<>();
-//            taskTplDescMetaDatas.forEach(e -> {
-//                params.put(e.getMetaName(), "");
-//            });
-//            System.out.println("=========================");
-//            taskInsData.setTaskData(JSON.toJSONString(params));
-//
-//        }
+        if(!CollectionUtils.isEmpty(taskTplDescMetaDatas)) {
+            System.out.println("=========================");
+            System.out.println(JSON.toJSONString(taskTplDescMetaDatas));
+            Map<String,String> params = new HashMap<>();
+            taskTplDescMetaDatas.forEach(e -> {
+                params.put(e.getMetaName(), "");
+            });
+            System.out.println("=========================");
+            taskInsData.setTaskData(JSON.toJSONString(params));
+
+        }
         taskInsDataCurd.save(taskInsData);
 
 //        if(!StringUtils.isEmpty(taskTplData.getDependTaskTplCode())) {
