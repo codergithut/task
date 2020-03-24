@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static com.factory.task.config.ResponseCodeEnum.DEPEND_TASK_ERROR;
 import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
 /**
@@ -68,7 +69,11 @@ public class JobManagerController {
 //        if(!jobService.checkTaskInsInfoAndUser(taskInsCode, userCode)) {
 //            return new RestModelTemplate<>().Success(false);
 //        }
-        return new RestModelTemplate<>().Success(jobService.finishTaskIns(taskInsCode));
+        if(jobService.finishTaskIns(taskInsCode)) {
+            return new RestModelTemplate<>().Success(true);
+        } else {
+            return new RestModelTemplate<>().Fail(DEPEND_TASK_ERROR.getCode(), DEPEND_TASK_ERROR.getDesc());
+        }
     }
 
     @GetMapping("/getTaskInsByStatus")
