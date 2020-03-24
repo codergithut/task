@@ -45,6 +45,7 @@ public class JobServiceImpl implements JobService {
         JobData jobData = new JobData();
         BeanUtils.copyProperties(jobView, jobData);
         jobData.setPublisherUserId(pubCode);
+        System.out.println(JSON.toJSONString(jobData));
         return jobDataCurd.save(jobData) != null;
     }
 
