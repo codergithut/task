@@ -35,20 +35,20 @@ public class TaskTplServiceImpl implements TaskTplService {
     @Override
     public Boolean createTaskTpl(TaskTplView taskTplView) {
         List<TaskTplDescMetaView> taskTplDescMetaViews = taskTplView.getTaskTplDescMetaViews();
-        String taskCode = saveTaskTpl(taskTplView);
         if(!TaskType.checkType(taskTplView.getTaskType())) {
             return false;
-        }
-        if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
-            saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
         }
         if(DEPEND.getType().equals(taskTplView.getTaskType())) {
             if(taskTplView.getNextTaskCode() != null || taskTplView.getDependTaskCodes() != null) {
                 return false;
             }
         }
+        String taskCode = saveTaskTpl(taskTplView);
+        if(!CollectionUtils.isEmpty(taskTplDescMetaViews)) {
+            saveTaskTplDescMeta(taskTplDescMetaViews, taskCode);
+        }
         taskTplView.setTaskCode(taskCode);
-        return !StringUtils.isEmpty(saveTaskTpl(taskTplView));
+        return !StringUtils.isEmpty(taskCode);
 
     }
 
@@ -64,17 +64,16 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     private String saveTaskTpl(TaskTplView taskTplView) {
         TaskTplData taskTplData = new TaskTplData();
-        String dependTasks = JSON.toJSONString(taskTplView.getDependTaskCodes());
+        if(!CollectionUtils.isEmpty(taskTplView.getDependTaskCodes())) {
+            taskTplData.setDependTaskTplCode(JSON.toJSONString(taskTplView.getDependTaskCodes()));
+        }
         String nextTask = taskTplView.getNextTaskCode();
         BeanUtils.copyProperties(taskTplView, taskTplData);
         taskTplData.setCreateDate(new Date());
         taskTplData.setDependTaskTplCode(null);
         taskTplData.setNextTaskTplCode(null);
         //todo 模版需要校验
-        if(dependTasks != null) {
-            taskTplData.setDependTaskTplCode(dependTasks);
-        }
-        if(nextTask != null) {
+        if(!StringUtils.isEmpty(nextTask)) {
             taskTplData.setNextTaskTplCode(taskTplView.getNextTaskCode());
         }
         taskTplData.setCreateDate(new Date());
