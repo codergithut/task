@@ -3,7 +3,6 @@ package com.factory.task.controller;
 import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
-import com.factory.task.model.user.ResourceInfo;
 import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
@@ -12,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
+
 import static com.factory.task.model.RestModelTemplate.FailUserInfoCheck;
 import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
@@ -68,29 +65,12 @@ public class UserManageController {
         return new RestModelTemplate<>().Success(userService.createRole(roleInfo));
     }
 
-    @GetMapping("/getResources")
-    public RestModelTemplate<ResourceInfo> getResourceInfo() {
-        return new RestModelTemplate<>().Success(userService.getAllResourceInfo());
-    }
-
-    @PostMapping("/createResource")
-    public RestModelTemplate<Boolean> createResource(@RequestBody ResourceInfo resourceInfo) {
-        resourceInfo.setResourceCode(UUID.randomUUID().toString());
-        return new RestModelTemplate<Boolean>().Success(userService.createResource(resourceInfo));
-    }
-
-    @GetMapping("/getUris")
+    @GetMapping(path = "/getUris", name = "get uri")
     public RestModelTemplate<UriInfo> getAllUriInfo() {
         return new RestModelTemplate<>().Success(userService.getAllUriInfo());
     }
 
-    @PostMapping("/createUri")
-    public RestModelTemplate<Boolean> createUri(@RequestBody UriInfo uriInfo) {
-        uriInfo.setUriCode(UUID.randomUUID().toString());
-        return new RestModelTemplate<>().Success(userService.createUri(uriInfo));
-    }
-
-    @GetMapping("/login")
+    @GetMapping(path = "/login", name = "login")
     public RestModelTemplate<Map<String,String>> loginService(@RequestParam("userName") String userName,
                                                               @RequestParam("passWord") String passWord) {
         Map<String,String> userInfo = new HashMap<>();
@@ -103,7 +83,7 @@ public class UserManageController {
         return new RestModelTemplate<>().Success(userInfo);
     }
 
-    @PostMapping("/loginOut")
+    @PostMapping(path = "/loginOut", name ="login out")
     public RestModelTemplate<Boolean> loginOutService() {
         String token = getUserCodeBySession(request);
         String userName = authResource.authUserInfo(token);
@@ -112,5 +92,6 @@ public class UserManageController {
         }
         return new RestModelTemplate<>().Success(authResource.clearUserLogInfo(userName));
     }
+
 
 }

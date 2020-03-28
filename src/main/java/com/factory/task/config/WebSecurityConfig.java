@@ -22,6 +22,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         // 排除配置
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/user/**");
+        addInterceptor.excludePathPatterns("/util/**");
 //        addInterceptor.excludePathPatterns("/user/**");
 //        addInterceptor.excludePathPatterns("/attendance/**");
 //        addInterceptor.excludePathPatterns("/inventory/**");

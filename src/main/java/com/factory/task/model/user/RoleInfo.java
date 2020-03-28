@@ -22,7 +22,10 @@ public class RoleInfo {
      */
     private String roleDesc;
 
-    private List<String> resourceCodes;
+    /**
+     * uri列表
+     */
+    private List<String> uriCodes;
 
     public String getRoleCode() {
         return roleCode;
@@ -48,11 +51,11 @@ public class RoleInfo {
         this.roleDesc = roleDesc;
     }
 
-    public List<String> getResourceCodes() {
-        return resourceCodes;
+    public List<String> getUriCodes() {
+        return uriCodes;
     }
 
-    public void setResourceCodes(List<String> resourceCodes) {
-        this.resourceCodes = resourceCodes;
+    public void setUriCodes(List<String> uriCodes) {
+        this.uriCodes = uriCodes;
     }
 }

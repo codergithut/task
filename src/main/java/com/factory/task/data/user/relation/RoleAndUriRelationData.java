@@ -8,14 +8,14 @@ import javax.persistence.Id;
  * Created by tianjian on 2020/1/15.
  */
 @Entity
-public class RoleAndResourceRelationData {
+public class RoleAndUriRelationData {
 
     @Id
     private String code;
 
     private String roleCode;
 
-    private String resourceId;
+    private String uriId;
 
     public String getCode() {
         return code;
@@ -33,11 +33,11 @@ public class RoleAndResourceRelationData {
         this.roleCode = roleCode;
     }
 
-    public String getResourceId() {
-        return resourceId;
+    public String getUriId() {
+        return uriId;
     }
 
-    public void setResourceId(String resourceId) {
-        this.resourceId = resourceId;
+    public void setUriId(String uriId) {
+        this.uriId = uriId;
     }
 }

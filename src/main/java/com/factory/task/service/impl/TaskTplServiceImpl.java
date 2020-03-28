@@ -64,14 +64,16 @@ public class TaskTplServiceImpl implements TaskTplService {
 
     private String saveTaskTpl(TaskTplView taskTplView) {
         TaskTplData taskTplData = new TaskTplData();
+        BeanUtils.copyProperties(taskTplView, taskTplData);
+        String nextTask = taskTplView.getNextTaskCode();
         if(!CollectionUtils.isEmpty(taskTplView.getDependTaskCodes())) {
             taskTplData.setDependTaskTplCode(JSON.toJSONString(taskTplView.getDependTaskCodes()));
         }
-        String nextTask = taskTplView.getNextTaskCode();
-        BeanUtils.copyProperties(taskTplView, taskTplData);
         taskTplData.setCreateDate(new Date());
-        taskTplData.setDependTaskTplCode(null);
-        taskTplData.setNextTaskTplCode(null);
+        if(DEPEND.getType().equals(taskTplView.getTaskType())) {
+            taskTplData.setDependTaskTplCode(null);
+            taskTplData.setNextTaskTplCode(null);
+        }
         //todo 模版需要校验
         if(!StringUtils.isEmpty(nextTask)) {
             taskTplData.setNextTaskTplCode(taskTplView.getNextTaskCode());

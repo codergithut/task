@@ -1,0 +1,14 @@
+/user/getUsers|获取所有用户信息
+/user/createUser|创建用户
+/user/getRoles|获取所有角色(主管)
+/user/createRole|创建角色
+/user/getUris|获取所有资源信息
+/taskTpl/create|模版创建
+/taskTpl/list|模版展示
+/taskTpl/getTplDescMeta|获取模版元数据
+/jobManager/createJob|创建订单信息
+/jobManager/getTaskInsInfo|获取工序详细信息
+/jobManager/finishTaskIns|结束工序
+/jobManager/getTaskInsByStatus|获取工序状态
+/jobManager/getJobList|获取任务列表
+

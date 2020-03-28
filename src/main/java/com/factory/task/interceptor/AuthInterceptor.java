@@ -28,7 +28,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws IOException {
         String token = request.getHeader(TOKEN);
-        String uri = request.getRequestURI();
+        String uri = request.getRequestURI().split("\\?")[0];
+
         if(token == null) {
             failResponseData(response);
             return false;
@@ -37,6 +38,10 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
             failResponseData(response);
             return false;
         }
+//        if(!authResource.checkUriAndUser(uri, token)) {
+//            failResponseData(response);
+//            return false;
+//        }
         request.getSession().setAttribute(USERINFO, authResource.getUserCodeByToken(token));
         //return authResource.isUserAuth(userInfo.getUserName(), uri);
         return true;

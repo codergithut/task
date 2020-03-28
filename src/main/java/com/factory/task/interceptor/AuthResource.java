@@ -36,7 +36,6 @@ public class AuthResource {
             .build();
 
     Cache<String, List<String>> auths = CacheBuilder.newBuilder()
-            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
             .build();
 
 
@@ -44,13 +43,10 @@ public class AuthResource {
         Map<String,String> userMapInfo = new HashMap<>();
         UserInfoData user = userService.findUserByNameAndPassWord(userName, passWord);
         String token = UUID.randomUUID().toString();
-        //String token = "1a212de7-ef2d-4a88-b9ee-137c7a3f258b";
         if(user != null) {
             tokens.put(token, user.getUserCode());
             userMapInfo.put("token", token);
             userMapInfo.put("userCode", user.getUserCode());
-            System.out.println("token:" + token);
-            System.out.println("userCode:" + user.getUserCode());
             return userMapInfo;
         }
         throw new UserIsNotExist();
@@ -67,46 +63,8 @@ public class AuthResource {
         return "Fail";
     }
 
-    public boolean clearAuthResource() {
-        tokens.cleanUp();
-        auths.cleanUp();
-        return true;
-    }
-
     public UserInfoData getUserInfoByLoginInfo(String userName, String passWord) {
         return userService.findUserByNameAndPassWord(userName, passWord);
-    }
-
-    /**
-     * 判断用户是否有权限
-     * @param userName
-     * @param uri
-     * @return
-     */
-    public boolean isUserAuth(String userName, String uri) {
-        if(auths.getIfPresent(userName) != null) {
-            return auths.getIfPresent(userName).contains(uri);
-        } else {
-            List<String> userCodes = userService.findUserUriByUserName(userName);
-            if(CollectionUtils.isEmpty(userCodes)) {
-                return false;
-            }
-            auths.put(userName, userCodes);
-            return userCodes.contains(uri);
-        }
-    }
-
-    /**
-     * 刷新已有用户缓存数据
-     */
-    public void refreshUserAuth() {
-        for(String userCode : auths.asMap().keySet()) {
-            List<String> userCodes = userService.findUserUriByUserName(userCode);
-            if(CollectionUtils.isEmpty(userCodes)) {
-                continue;
-            }
-            auths.put(userCode, userCodes);
-        }
     }
 
     public boolean clearUserLogInfo(String token) {
@@ -117,4 +75,32 @@ public class AuthResource {
     }
 
 
+    public boolean checkUriAndUser(String uri, String token) {
+        String userCode = tokens.getIfPresent(token);
+        if(auths.getIfPresent(userCode) != null) {
+            return auths.getIfPresent(userCode).contains(uri);
+        } else {
+            List<String> userCodes = userService.findUserUriByUserCode(userCode);
+            if(CollectionUtils.isEmpty(userCodes)) {
+                return false;
+            }
+            auths.put(userCode, userCodes);
+            return userCodes.contains(uri);
+        }
+
+    }
+
+    /**
+     * 刷新当前用户数据
+     * @param userCode
+     * @return
+     */
+    public boolean freshenUriAndUser(String userCode) {
+        synchronized (auths) {
+            auths.invalidate(userCode);
+            List<String> userCodes = userService.findUserUriByUserCode(userCode);
+            auths.put(userCode,userCodes);
+            return true;
+        }
+    }
 }

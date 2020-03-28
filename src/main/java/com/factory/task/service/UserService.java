@@ -20,10 +20,6 @@ public interface UserService {
 
     Boolean createRole(RoleInfo roleInfo);
 
-    List<ResourceInfo> getAllResourceInfo();
-
-    Boolean createResource(ResourceInfo resourceInfo);
-
     List<UriInfo> getAllUriInfo();
 
     Boolean createUri(UriInfo uriInfo);
@@ -39,4 +35,6 @@ public interface UserService {
     Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas);
 
     Map<String,String> findUserByUserCode(String userCode);
+
+    List<String> findUserUriByUserCode(String userCode);
 }
