@@ -12,4 +12,4 @@ docker stop task
 
 docker rm task
 
-docker run -d -it -p 80:80 --name task tianjian3209/task:jenkins
+docker run -d -it -p 8080:8080 --name task tianjian3209/task:jenkins
