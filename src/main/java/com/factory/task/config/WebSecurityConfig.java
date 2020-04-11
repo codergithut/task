@@ -32,7 +32,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 //        addInterceptor.excludePathPatterns("/taskTpl/**");
 
         // 拦截配置
-        addInterceptor.addPathPatterns("/**");
+//        addInterceptor.addPathPatterns("/**");
     }
 }
 
