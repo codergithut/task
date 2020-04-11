@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
@@ -27,6 +28,7 @@ public class GpsContrller {
     public RestModelTemplate<Boolean> saveLocationInfo(@RequestParam("latitude") double latitude, @RequestParam("longitude") double longitude) {
         // 根据taskStatus获取所有服务实例 比如获取所有服务状态未start 提供给页面，如果是start可以点击完成，否则就是没啥操作
         GpsData gpsData = new GpsData();
+        gpsData.setId(UUID.randomUUID().toString());
         gpsData.setLatitude(latitude);
         gpsData.setLongitude(longitude);
         gpsData.setCreateTime(new Date(System.currentTimeMillis()));
