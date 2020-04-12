@@ -18,6 +18,10 @@ import java.util.Map;
 @CrossOrigin
 public class WeiXinController {
 
+    //EncodingAESKey Y9Z2BQWXoUn0LNPW87FgPDgkSdKo6rA7gCpUd6U6H0L
+
+    //token tianjian
+
     @Autowired
     private RestTemplate restTemplate;
     String secretKey = "11563aa67bfedfa04777176081e240c2";
@@ -26,8 +30,9 @@ public class WeiXinController {
     public RestModelTemplate getWeiXinUserInfo(@RequestParam("code") String code) {
         String req = "https://api.weixin.qq.com/sns/jscode2session?appid=wxf9682b2d07b42000&secret=11563aa67bfedfa04777176081e240c2&js_code=$code&grant_type=authorization_code";
         String realReq = req.replace("$code", code);
-        ResponseEntity s = restTemplate.getForEntity(realReq, null);
-        System.out.println(JSON.toJSON(s.getBody()).toString());
+        System.out.println(realReq);
+//        ResponseEntity s = restTemplate.getForEntity(realReq, null);
+//        System.out.println(JSON.toJSON(s.getBody()).toString());
         return new RestModelTemplate<List<Map<String,String>>>().Success(null);
     }
 }
