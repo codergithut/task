@@ -22,7 +22,7 @@ public class WeiXinController {
     private RestTemplate restTemplate;
     String secretKey = "11563aa67bfedfa04777176081e240c2";
     String appid = "wxf9682b2d07b42000";
-    @GetMapping("/getUserInfo")
+    @GetMapping("/userInfo")
     public RestModelTemplate getWeiXinUserInfo(@RequestParam("code") String code) {
         String req = "https://api.weixin.qq.com/sns/jscode2session?appid=wxf9682b2d07b42000&secret=11563aa67bfedfa04777176081e240c2&js_code=$code&grant_type=authorization_code";
         String realReq = req.replace("$code", code);
