@@ -93,5 +93,4 @@ public class UserManageController {
         return new RestModelTemplate<>().Success(authResource.clearUserLogInfo(userName));
     }
 
-
 }
