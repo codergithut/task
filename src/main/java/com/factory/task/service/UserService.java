@@ -34,7 +34,7 @@ public interface UserService {
 
     Boolean updateUserInfoDatas(List<UserInfoData> userInfoDatas);
 
-    Map<String,String> findUserByUserCode(String userCode);
+    UserInfoData findUserByUserCode(String userCode);
 
     List<String> findUserUriByUserCode(String userCode);
 }

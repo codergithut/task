@@ -1,13 +1,19 @@
 package com.factory.task.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.factory.task.data.user.UserInfoData;
+import com.factory.task.data.weixin.WeiXinUserLinkSysUser;
+import com.factory.task.data.weixin.curd.WeiXinUserLinkSysUserCurd;
+import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
+import com.factory.task.model.weixin.WeiXinLogin;
+import com.factory.task.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.List;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +24,15 @@ import java.util.Map;
 @CrossOrigin
 public class WeiXinController {
 
+    @Autowired
+    private WeiXinUserLinkSysUserCurd weiXinUserLinkSysUserCurd;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AuthResource authResource;
+
     //EncodingAESKey Y9Z2BQWXoUn0LNPW87FgPDgkSdKo6rA7gCpUd6U6H0L
 
     //token tianjian
@@ -26,13 +41,20 @@ public class WeiXinController {
     private RestTemplate restTemplate;
     String secretKey = "11563aa67bfedfa04777176081e240c2";
     String appid = "wxf9682b2d07b42000";
+
+
     @GetMapping("/userInfo")
-    public RestModelTemplate getWeiXinUserInfo(@RequestParam("code") String code) {
+    public RestModelTemplate<Map<String,String>> getWeiXinUserInfo(@RequestParam("code") String code) {
         String req = "https://api.weixin.qq.com/sns/jscode2session?appid=wxf9682b2d07b42000&secret=11563aa67bfedfa04777176081e240c2&js_code=$code&grant_type=authorization_code";
         String realReq = req.replace("$code", code);
-        System.out.println(realReq);
-//        ResponseEntity s = restTemplate.getForEntity(realReq, null);
-//        System.out.println(JSON.toJSON(s.getBody()).toString());
-        return new RestModelTemplate<List<Map<String,String>>>().Success(null);
+        ResponseEntity<String> s = restTemplate.getForEntity(realReq, String.class);
+        WeiXinLogin weiXinLogin = JSONObject.parseObject(s.getBody(), WeiXinLogin.class);
+        WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getUnionId());
+        UserInfoData userInfoData = userService.findUserByUserCode(weiXinUserInfo.getUserCode());
+        Map<String,String> userInfo = new HashMap<>();
+        if(weiXinLogin != null) {
+            userInfo = authResource.createToken(userInfoData);
+        }
+        return new RestModelTemplate().Success(userInfo);
     }
 }

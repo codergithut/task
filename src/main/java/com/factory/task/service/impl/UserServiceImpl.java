@@ -164,11 +164,9 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Map<String,String> findUserByUserCode(String userCode) {
-        Map<String,String> userData = new HashMap<>();
+    public UserInfoData findUserByUserCode(String userCode) {
         UserInfoData userInfoData = userInfoDataCurd.findByUserCode(userCode);
-        userData.put("userName", userInfoData.getUserName());
-        return userData;
+        return userInfoData;
     }
 
     @Override

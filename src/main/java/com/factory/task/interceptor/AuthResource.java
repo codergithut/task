@@ -39,9 +39,8 @@ public class AuthResource {
             .build();
 
 
-    public Map<String,String> createToken(String userName, String passWord) throws UserIsNotExist {
+    public Map<String,String> createToken(UserInfoData user) {
         Map<String,String> userMapInfo = new HashMap<>();
-        UserInfoData user = userService.findUserByNameAndPassWord(userName, passWord);
         String token = UUID.randomUUID().toString();
         if(user != null) {
             tokens.put(token, user.getUserCode());
@@ -49,7 +48,7 @@ public class AuthResource {
             userMapInfo.put("userCode", user.getUserCode());
             return userMapInfo;
         }
-        throw new UserIsNotExist();
+        return null;
     }
 
     public String getUserCodeByToken(String token) {

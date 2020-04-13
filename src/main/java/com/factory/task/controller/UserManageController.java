@@ -1,5 +1,6 @@
 package com.factory.task.controller;
 
+import com.factory.task.data.user.UserInfoData;
 import com.factory.task.error.UserIsNotExist;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.RestModelTemplate;
@@ -71,14 +72,11 @@ public class UserManageController {
     }
 
     @GetMapping(path = "/login", name = "login")
-    public RestModelTemplate<Map<String,String>> loginService(@RequestParam("userName") String userName,
-                                                              @RequestParam("passWord") String passWord) {
+    public RestModelTemplate<Map<String,String>> loginService(@RequestParam("userName") String userName, @RequestParam("passWord") String passWord) {
         Map<String,String> userInfo = new HashMap<>();
-        try {
-            userInfo = authResource.createToken(userName, passWord);
-        } catch (UserIsNotExist userIsNotExist) {
-            userIsNotExist.printStackTrace();
-            return FailUserInfoCheck();
+        UserInfoData userInfoData = userService.findUserByNameAndPassWord(userName, passWord);
+        if(userInfoData != null) {
+            userInfo = authResource.createToken(userInfoData);
         }
         return new RestModelTemplate<>().Success(userInfo);
     }
