@@ -50,7 +50,7 @@ public class WeiXinController {
         ResponseEntity<String> s = restTemplate.getForEntity(realReq, String.class);
         System.out.print("======" + s);
         WeiXinLogin weiXinLogin = JSONObject.parseObject(s.getBody(), WeiXinLogin.class);
-        WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getUnionId());
+        WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getOpenid());
         UserInfoData userInfoData = userService.findUserByUserCode(weiXinUserInfo.getUserCode());
         Map<String,String> userInfo = new HashMap<>();
         if(weiXinLogin != null) {
