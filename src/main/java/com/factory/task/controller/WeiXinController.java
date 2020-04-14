@@ -54,7 +54,7 @@ public class WeiXinController {
         String realReq = req.replace("$code", code);
         ResponseEntity<String> s = restTemplate.getForEntity(realReq, String.class);
         WeiXinLogin weiXinLogin = JSONObject.parseObject(s.getBody(), WeiXinLogin.class);
-        WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getUnionId());
+        WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getOpenid());
         UserInfoData userInfoData = userService.findUserByUserCode(weiXinUserInfo.getUserCode());
         JSONObject jsonObject = WechatGetUserInfoUtil.getUserInfo(encryptedData, weiXinLogin.getSession_key(), iv);
         System.out.println(JSON.toJSONString(jsonObject));
