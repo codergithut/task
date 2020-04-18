@@ -25,7 +25,7 @@ public class VailMessageController {
 
     private String token = "3fb2e6f82b96";
 
-    String ss = "GZ3elhWYSuejvnTVXxe31M5Hip8mOh9bqCqH3Z3Aons";
+    String ss = "2oOUH5lNyeN9YjyatdxiqGCNaoUGa1V8gbC9ksSN0Ms";
 
     @GetMapping("/message")
     public String valilMessage(@RequestParam("signature") String signature,

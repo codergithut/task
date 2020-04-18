@@ -10,12 +10,14 @@ import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 import static com.factory.task.model.RestModelTemplate.FailUserInfoCheck;
+import static com.factory.task.util.ConstantUtils.TOKEN;
 import static com.factory.task.util.RequestUtil.getUserCodeBySession;
 
 /**
@@ -93,7 +95,11 @@ public class UserManageController {
     }
 
     @GetMapping("/getUserByToken")
-    public RestModelTemplate<UserInfo> getUserInfoByToken(@RequestParam("token") String token) {
+    public RestModelTemplate<UserInfo> getUserInfoByToken() {
+        String token = request.getHeader(TOKEN);
+        if(StringUtils.isEmpty(token)) {
+            return new RestModelTemplate<UserInfo>().Success(new UserInfo());
+        }
         String userCode = authResource.getUserCodeByToken(token);
         UserInfoData userInfoData = userService.findUserByUserCode(userCode);
         UserInfo userInfo = new UserInfo();
