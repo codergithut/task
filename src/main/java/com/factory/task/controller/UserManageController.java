@@ -8,6 +8,7 @@ import com.factory.task.model.user.RoleInfo;
 import com.factory.task.model.user.UriInfo;
 import com.factory.task.model.user.UserInfo;
 import com.factory.task.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -90,5 +91,16 @@ public class UserManageController {
         }
         return new RestModelTemplate<>().Success(authResource.clearUserLogInfo(userName));
     }
+
+    @GetMapping("/getUserByToken")
+    public RestModelTemplate<UserInfo> getUserInfoByToken(@RequestParam("token") String token) {
+        String userCode = authResource.getUserCodeByToken(token);
+        UserInfoData userInfoData = userService.findUserByUserCode(userCode);
+        UserInfo userInfo = new UserInfo();
+        BeanUtils.copyProperties(userInfoData, userInfo);
+        return new RestModelTemplate<>().Success(userInfo);
+    }
+
+
 
 }

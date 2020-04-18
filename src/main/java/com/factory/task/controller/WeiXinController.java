@@ -37,12 +37,14 @@ public class WeiXinController {
 
     //EncodingAESKey Y9Z2BQWXoUn0LNPW87FgPDgkSdKo6rA7gCpUd6U6H0L
 
-    //token tianjian
+    //token 357db40b
 
     @Autowired
     private RestTemplate restTemplate;
     String secretKey = "11563aa67bfedfa04777176081e240c2";
     String appid = "wxf9682b2d07b42000";
+
+    String aesKey = "011t135FYNA8GE6JBsd947j7t3a4IfB9akbAnuZLFuW";
 
 
     @GetMapping("/userInfo")
