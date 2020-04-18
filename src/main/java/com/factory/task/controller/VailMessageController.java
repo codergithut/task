@@ -48,4 +48,9 @@ public class VailMessageController {
         }
         return true;
     }
+
+    public static void main(String[] args) throws AesException {
+        String s = SHA1.getSHA1("ss", "ss", "ss");
+        System.out.println(s);
+    }
 }
