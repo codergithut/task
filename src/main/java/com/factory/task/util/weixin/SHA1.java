@@ -16,7 +16,7 @@ import java.util.Arrays;
  *
  * 计算公众平台的消息签名接口.
  */
-class SHA1 {
+public class SHA1 {
 
 	/**
 	 * 用SHA1算法生成安全签名
@@ -27,10 +27,10 @@ class SHA1 {
 	 * @return 安全签名
 	 * @throws AesException 
 	 */
-	public static String getSHA1(String token, String timestamp, String nonce, String encrypt) throws AesException
+	public static String getSHA1(String token, String timestamp, String nonce) throws AesException
 			  {
 		try {
-			String[] array = new String[] { token, timestamp, nonce, encrypt };
+			String[] array = new String[] { token, timestamp, nonce};
 			StringBuffer sb = new StringBuffer();
 			// 字符串排序
 			Arrays.sort(array);
