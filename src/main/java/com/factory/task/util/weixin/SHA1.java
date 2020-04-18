@@ -58,4 +58,8 @@ public class SHA1 {
 			throw new AesException(AesException.ComputeSignatureError);
 		}
 	}
+
+	public static String getSHA1(String token, String timestamp, String nonce, String ss) throws AesException {
+		return "";
+	}
 }
