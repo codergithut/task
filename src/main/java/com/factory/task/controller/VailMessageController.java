@@ -16,6 +16,8 @@ public class VailMessageController {
 
     private String token = "3fb2e6f82b96";
 
+    String ss = "oPw8c00fI8BdcnsVoKUXB0qqi5pTMYHd6O8e6vwXGSE";
+
     @GetMapping("/message")
     public String valilMessage(@RequestParam("signature") String signature,
                                @RequestParam("timestamp") String timestamp,
@@ -38,6 +40,8 @@ public class VailMessageController {
             s.append(e);
         });
         String sign = DigestUtils.shaHex(s.toString());
+        System.out.println("sign =======" + sign);
+        System.out.println("signature =====" + signature);
         if(!sign.equals(signature)) {
             return false;
         }
