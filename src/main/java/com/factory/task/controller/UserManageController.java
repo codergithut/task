@@ -80,6 +80,8 @@ public class UserManageController {
         UserInfoData userInfoData = userService.findUserByNameAndPassWord(userName, passWord);
         if(userInfoData != null) {
             userInfo = authResource.createToken(userInfoData);
+        } else {
+            return new RestModelTemplate<>().Fail("100003", "用户登录失败");
         }
         return new RestModelTemplate<>().Success(userInfo);
     }
@@ -98,10 +100,16 @@ public class UserManageController {
     public RestModelTemplate<UserInfo> getUserInfoByToken() {
         String token = request.getHeader(TOKEN);
         if(StringUtils.isEmpty(token)) {
-            return new RestModelTemplate<UserInfo>().Success(new UserInfo());
+            return new RestModelTemplate<>().Fail("100007", "token未设置");
         }
         String userCode = authResource.getUserCodeByToken(token);
+        if(StringUtils.isEmpty(userCode)) {
+            return new RestModelTemplate<>().Fail("100002", "未找到相关用户");
+        }
         UserInfoData userInfoData = userService.findUserByUserCode(userCode);
+        if(userInfoData == null) {
+            return new RestModelTemplate<>().Fail("100006", "用户已经被删除");
+        }
         UserInfo userInfo = new UserInfo();
         BeanUtils.copyProperties(userInfoData, userInfo);
         return new RestModelTemplate<>().Success(userInfo);

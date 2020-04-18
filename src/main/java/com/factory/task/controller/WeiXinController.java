@@ -57,12 +57,17 @@ public class WeiXinController {
         ResponseEntity<String> s = restTemplate.getForEntity(realReq, String.class);
         WeiXinLogin weiXinLogin = JSONObject.parseObject(s.getBody(), WeiXinLogin.class);
         WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getOpenid());
+        if(weiXinUserInfo == null) {
+            return new RestModelTemplate<>().Fail("100004", "微信用户未关联");
+        }
         UserInfoData userInfoData = userService.findUserByUserCode(weiXinUserInfo.getUserCode());
         JSONObject jsonObject = WechatGetUserInfoUtil.getUserInfo(encryptedData, weiXinLogin.getSession_key(), iv);
         System.out.println(JSON.toJSONString(jsonObject));
         Map<String,String> userInfo = new HashMap<>();
-        if(weiXinLogin != null) {
+        if(userInfoData != null) {
             userInfo = authResource.createToken(userInfoData);
+        } else {
+            return new RestModelTemplate<>().Fail("100005", "关联的用户未找到");
         }
         return new RestModelTemplate().Success(userInfo);
     }
