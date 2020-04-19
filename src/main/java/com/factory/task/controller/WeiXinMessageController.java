@@ -37,7 +37,7 @@ public class WeiXinMessageController {
         SubscribeMessage subscribeMessage = new SubscribeMessage();
         subscribeMessage.setAccess_token(token);
         subscribeMessage.setTouser("oYZkO5JBKPWvjzWcFiwsM5DJOP8E");
-        subscribeMessage.setMiniprogram_state("developer");
+        subscribeMessage.setMiniprogram_state("trial");
         subscribeMessage.setLang("zh_CN");
         subscribeMessage.setTemplate_id("_QRm8hkaNCftgMisIrjV1xASMGiTSRKp6hy6k8UptQs");
         Map<String,Map<String,Object>> keyValue = new HashMap<>();
