@@ -1,11 +1,11 @@
 package com.factory.task.model.weixin.message;
 
-import java.util.Map;
 
 /**
  * Created by tianjian on 2020/4/19.
  */
 public class SubscribeMessage {
+
     private String access_token;
 
     /**
@@ -21,7 +21,7 @@ public class SubscribeMessage {
     /**
      * 点击模板卡片后的跳转页面，仅限本小程序内的页面。支持带参数,（示例index?foo=bar）。该字段不填则模板无跳转。
      */
-    private Map page;
+    private String page;
 
     /**
      * 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
@@ -62,11 +62,11 @@ public class SubscribeMessage {
         this.template_id = template_id;
     }
 
-    public Map getPage() {
+    public String getPage() {
         return page;
     }
 
-    public void setPage(Map page) {
+    public void setPage(String page) {
         this.page = page;
     }
 
