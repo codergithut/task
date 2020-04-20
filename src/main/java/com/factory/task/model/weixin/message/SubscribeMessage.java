@@ -1,6 +1,8 @@
 package com.factory.task.model.weixin.message;
 
 
+import java.util.Map;
+
 /**
  * Created by tianjian on 2020/4/19.
  */
@@ -26,7 +28,7 @@ public class SubscribeMessage {
     /**
      * 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
      */
-    private String data;
+    private Map data;
 
     /**
      * 跳转小程序类型：developer为开发版；trial为体验版；formal为正式版；默认为正式版
@@ -70,11 +72,11 @@ public class SubscribeMessage {
         this.page = page;
     }
 
-    public String getData() {
+    public Map getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(Map data) {
         this.data = data;
     }
 

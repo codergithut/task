@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 /**
  * Created by tianjian on 2020/4/19.
  */
@@ -29,7 +31,7 @@ public class SubscribeMessageUtil {
     private WeiXinTokenScheduleTask weiXinTokenScheduleTask;
 
 
-    private SubscribeMessage buildSubscribeMessage(String templateId, String data, String page, String touser, String token) {
+    private SubscribeMessage buildSubscribeMessage(String templateId, Map data, String page, String touser, String token) {
         SubscribeMessage subscribeMessage = new SubscribeMessage();
         subscribeMessage.setTemplate_id(templateId);
         subscribeMessage.setData(data);
@@ -41,11 +43,11 @@ public class SubscribeMessageUtil {
         return subscribeMessage;
     }
 
-    public SubMessageBack sendSubscribeMessage(String templateId, String data, String touser) {
+    public SubMessageBack sendSubscribeMessage(String templateId, Map data, String touser) {
         return sendSubscribeMessage(templateId, data, null, touser);
     }
 
-    public SubMessageBack sendSubscribeMessage(String templateId, String data, String page, String touser) {
+    public SubMessageBack sendSubscribeMessage(String templateId, Map data, String page, String touser) {
         String token = weiXinTokenScheduleTask.getToken();
         SubscribeMessage subscribeMessage = buildSubscribeMessage(templateId, data, page, touser, token);
         publishUrl = publishUrl.replace("accessToken", token);

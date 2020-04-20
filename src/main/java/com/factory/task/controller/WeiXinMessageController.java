@@ -41,7 +41,7 @@ public class WeiXinMessageController {
         name2.put("value", "tianjian2");
 
         Map<String, Object> time4 = new HashMap<>();
-        time4.put("value", System.currentTimeMillis());
+        time4.put("value", "2018-01-02");
 
 
         keyValue.put("name2", name2);
@@ -50,7 +50,7 @@ public class WeiXinMessageController {
         keyValue.put("thing1", thing1);
         SubMessageBack ss = subscribeMessageUtil.sendSubscribeMessage(
                 "_QRm8hkaNCftgMisIrjV1xASMGiTSRKp6hy6k8UptQs",
-                JSON.toJSONString(keyValue), "oYZkO5JBKPWvjzWcFiwsM5DJOP8E");
+                keyValue, "oYZkO5JBKPWvjzWcFiwsM5DJOP8E");
         System.out.println("------------------------");
         System.out.println(ss.getErrcode());
         System.out.println(ss.getErrmsg());
