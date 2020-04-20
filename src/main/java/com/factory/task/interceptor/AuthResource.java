@@ -1,6 +1,9 @@
 package com.factory.task.interceptor;
 
 import com.factory.task.data.user.UserInfoData;
+import com.factory.task.data.user.curd.UserInfoDataCurd;
+import com.factory.task.data.weixin.WeiXinUserLinkSysUser;
+import com.factory.task.data.weixin.curd.WeiXinUserLinkSysUserCurd;
 import com.factory.task.error.UserIsLogin;
 import com.factory.task.error.UserIsNotExist;
 import com.factory.task.model.user.UserInfo;
@@ -10,6 +13,7 @@ import com.google.common.cache.CacheBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,9 +30,23 @@ public class AuthResource {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private WeiXinUserLinkSysUserCurd weiXinUserLinkSysUserCurd;
+
+    @Autowired
+    private UserInfoDataCurd userInfoDataCurd;
+
 
     Cache<String, String> tokens = CacheBuilder.newBuilder()
             .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
+            .build();
+
+    Cache<String, String> userWeiXin = CacheBuilder.newBuilder()
+            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
+            .build();
+
+    Cache<String, String> userNameCode = CacheBuilder.newBuilder()
+            .expireAfterAccess(60*60*24, TimeUnit.SECONDS)
             .build();
 
     Cache<String, String> userTokens = CacheBuilder.newBuilder()
@@ -51,6 +69,19 @@ public class AuthResource {
         return null;
     }
 
+    public String getUserNameByCode(String userCode) {
+        if(userNameCode.getIfPresent(userCode) != null) {
+            return userNameCode.getIfPresent(userCode);
+        } else {
+            UserInfoData userInfoData = userInfoDataCurd.findByUserCode(userCode);
+            if(userInfoData != null && !StringUtils.isEmpty(userInfoData.getUserName())) {
+                userNameCode.put(userCode, userInfoData.getUserName());
+                return userNameCode.getIfPresent(userCode);
+            }
+            return null;
+        }
+    }
+
     public String getUserCodeByToken(String token) {
         return tokens.getIfPresent(token);
     }
@@ -64,6 +95,19 @@ public class AuthResource {
 
     public UserInfoData getUserInfoByLoginInfo(String userName, String passWord) {
         return userService.findUserByNameAndPassWord(userName, passWord);
+    }
+
+    public String getWeiXinCode(String userCode) {
+        String uid = null;
+        if(userWeiXin.getIfPresent(userCode) != null) {
+            return userWeiXin.getIfPresent(userCode);
+        }
+        WeiXinUserLinkSysUser weiXinUserLinkSysUser = weiXinUserLinkSysUserCurd.findByUserCode(userCode);
+        uid = weiXinUserLinkSysUser.getUnionId();
+        if(weiXinUserLinkSysUser != null && !StringUtils.isEmpty(uid)) {
+            userWeiXin.put(userCode, weiXinUserLinkSysUser.getUnionId());
+        }
+        return uid;
     }
 
     public boolean clearUserLogInfo(String token) {

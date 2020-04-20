@@ -3,17 +3,26 @@ package com.factory.task.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.factory.task.data.task.*;
 import com.factory.task.data.task.curd.*;
+import com.factory.task.data.user.UserInfoData;
+import com.factory.task.data.user.curd.UserInfoDataCurd;
+import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.task.JobView;
 import com.factory.task.model.task.TaskInsExtView;
 import com.factory.task.model.task.TaskInsView;
+import com.factory.task.model.weixin.message.SubMessageBack;
+import com.factory.task.model.weixin.message.SubscribeMessageUtil;
 import com.factory.task.service.JobService;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -28,6 +37,9 @@ public class JobServiceImpl implements JobService {
     private JobDataCurd jobDataCurd;
 
     @Autowired
+    private UserInfoDataCurd userInfoDataCurd;
+
+    @Autowired
     private TaskTplDataCurd taskTplDataCurd;
 
     @Autowired
@@ -38,6 +50,15 @@ public class JobServiceImpl implements JobService {
 
     @Autowired
     private TaskTplDescMetaDataCurd taskTplDescMetaDataCurd;
+
+    @Autowired
+    private AuthResource authResource;
+
+    @Autowired
+    private SubscribeMessageUtil subscribeMessageUtil;
+
+    @Value("${spring.weixin.templateId}")
+    private String templateId;
 
 
     @Override
@@ -211,6 +232,7 @@ public class JobServiceImpl implements JobService {
         taskInsData.setTaskInsCode(UUID.randomUUID().toString());
         taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());
         taskInsData.setJobCode(jobCode);
+        sendNoticeMessage(taskTplData);
         if(!StringUtils.isEmpty(taskTplData.getDependTaskTplCode())) {
             taskInsData.setDependTaskTplCode(taskTplData.getDependTaskTplCode());
         }
@@ -237,6 +259,34 @@ public class JobServiceImpl implements JobService {
             }
         }
 
+    }
+
+    private void sendNoticeMessage(TaskTplData taskTplData) {
+        Map<String,Map<String,Object>> keyValue = new HashMap<>();
+        Map<String,Object> thing1 = new HashMap<>();
+        thing1.put("value", taskTplData.getTaskName());
+
+        String userName = authResource.getUserNameByCode(taskTplData.getReceiverUserId());
+
+        Map<String,Object> name3 = new HashMap<>();
+        name3.put("value", userName);
+
+        Map<String,Object> name2 = new HashMap<>();
+        name2.put("value", "张三");
+
+        Date dt=new Date(System.currentTimeMillis());
+        DateFormat df=new SimpleDateFormat("yyyy-MM-dd");
+        String formatdate=df.format(dt);
+
+        Map<String, Object> time4 = new HashMap<>();
+        time4.put("value", formatdate);
+
+        keyValue.put("name2", name2);
+        keyValue.put("name3", name3);
+        keyValue.put("time4", time4);
+        keyValue.put("thing1", thing1);
+        SubMessageBack ss = subscribeMessageUtil.sendSubscribeMessage(
+                templateId, keyValue, authResource.getWeiXinCode(taskTplData.getReceiverUserId()));
     }
 
 }

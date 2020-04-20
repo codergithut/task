@@ -8,4 +8,6 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface WeiXinUserLinkSysUserCurd extends CrudRepository<WeiXinUserLinkSysUser, String> {
     WeiXinUserLinkSysUser findByUnionId(String unionId);
+
+    WeiXinUserLinkSysUser findByUserCode(String userCode);
 }
