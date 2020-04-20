@@ -32,16 +32,16 @@ public class WeiXinMessageController {
     public String valilMessage() throws AesException {
         Map<String,Map<String,Object>> keyValue = new HashMap<>();
         Map<String,Object> thing1 = new HashMap<>();
-        thing1.put("value", "我是主题");
+        thing1.put("value", "BRK产线油泵漏油");
 
         Map<String,Object> name3 = new HashMap<>();
-        name3.put("value", "tianjian");
+        name3.put("value", "李四");
 
         Map<String,Object> name2 = new HashMap<>();
-        name2.put("value", "tianjian2");
+        name2.put("value", "张三");
 
         Map<String, Object> time4 = new HashMap<>();
-        time4.put("value", "2018-01-02");
+        time4.put("value", "2019-10-15");
 
 
         keyValue.put("name2", name2);
