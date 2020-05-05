@@ -9,6 +9,7 @@ import com.factory.task.data.task.curd.TaskTplDescMetaDataCurd;
 import com.factory.task.model.task.TaskTplDescMetaView;
 import com.factory.task.model.task.TaskTplView;
 import com.factory.task.service.TaskTplService;
+import com.google.common.collect.Lists;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -107,5 +108,31 @@ public class TaskTplServiceImpl implements TaskTplService {
             return taskTplDescMetaView;
         }).collect(Collectors.toList());
         return datas;
+    }
+
+    @Override
+    public List<TaskTplView> getAllTaskTpl() {
+        List<TaskTplData> taskTplDatas = Lists.newArrayList(taskTplDataCurd.findAll());
+        if(!CollectionUtils.isEmpty(taskTplDatas)) {
+            return taskTplDatas.stream().map(e -> {
+                TaskTplView taskTplView = new TaskTplView();
+                BeanUtils.copyProperties(e, taskTplView);
+                return taskTplView;
+            }).collect(Collectors.toList());
+        }
+        return null;
+    }
+
+    @Override
+    public List<TaskTplView> getTaskTplByNodeType(String taskType) {
+        List<TaskTplData> taskTplDatas = taskTplDataCurd.findTaskTplDataByTaskType(taskType);
+        if(!CollectionUtils.isEmpty(taskTplDatas)) {
+            return taskTplDatas.stream().map(e -> {
+                TaskTplView taskTplView = new TaskTplView();
+                BeanUtils.copyProperties(e, taskTplView);
+                return taskTplView;
+            }).collect(Collectors.toList());
+        }
+        return null;
     }
 }

@@ -29,4 +29,9 @@ public interface TaskTplService {
      * @return
      */
     List<TaskTplDescMetaView> getTaskDescMetaByTaskCode(String taskCode);
+
+
+    List<TaskTplView> getAllTaskTpl();
+
+    List<TaskTplView> getTaskTplByNodeType(String taskType);
 }

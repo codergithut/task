@@ -54,6 +54,16 @@ public class TaskInitController {
         return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getParentTaskTpl(isParent));
     }
 
+    @RequestMapping("/listAll")
+    public RestModelTemplate<List<TaskTplView>> getAllTaskTpl() {
+        return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getAllTaskTpl());
+    }
+
+    @RequestMapping("/listByTaskType")
+    public RestModelTemplate<List<TaskTplView>> getAllTaskTpl(@RequestParam("taskType") String taskType) {
+        return new RestModelTemplate<List<TaskTplView>>().Success(taskTplService.getTaskTplByNodeType(taskType));
+    }
+
     @RequestMapping("/getTplDescMeta")
     public RestModelTemplate<List<TaskTplDescMetaView>>
     getTaskDescTplDescMetaViewByTaskCode(@RequestParam("taskCode") String taskCode) {
