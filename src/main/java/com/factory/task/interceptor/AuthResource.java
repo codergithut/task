@@ -38,19 +38,19 @@ public class AuthResource {
 
 
     Cache<String, String> tokens = CacheBuilder.newBuilder()
-            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24*30, TimeUnit.SECONDS)
             .build();
 
     Cache<String, String> userWeiXin = CacheBuilder.newBuilder()
-            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24*30, TimeUnit.SECONDS)
             .build();
 
     Cache<String, String> userNameCode = CacheBuilder.newBuilder()
-            .expireAfterAccess(60*60*24, TimeUnit.SECONDS)
+            .expireAfterAccess(60*60*24*30, TimeUnit.SECONDS)
             .build();
 
     Cache<String, String> userTokens = CacheBuilder.newBuilder()
-            .expireAfterWrite(60*60*24, TimeUnit.SECONDS)
+            .expireAfterWrite(60*60*24*30, TimeUnit.SECONDS)
             .build();
 
     Cache<String, List<String>> auths = CacheBuilder.newBuilder()
