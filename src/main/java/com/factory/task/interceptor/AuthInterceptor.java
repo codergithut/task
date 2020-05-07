@@ -1,6 +1,7 @@
 package com.factory.task.interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.factory.task.model.RestModelTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -51,8 +52,7 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         response.setContentType("application/json;charset=utf-8");
         response.setStatus(403);
         PrintWriter writer = response.getWriter();
-        Map<String, String> map = new HashMap<>();
-        map.put("error", "token is null or lose effectiveness");
-        writer.write(JSON.toJSONString(map));
+        RestModelTemplate fail = new RestModelTemplate<>().Fail("100007", "token服务器已经失效");
+        writer.write(JSON.toJSONString(fail));
     }
 }
