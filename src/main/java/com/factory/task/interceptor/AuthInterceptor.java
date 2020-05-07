@@ -31,11 +31,8 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
         String token = request.getHeader(TOKEN);
         String uri = request.getRequestURI().split("\\?")[0];
 
-        if(token == null) {
-            //failResponseData(response);
-            return true;
-        }
-        if(StringUtils.isEmpty(authResource.getUserCodeByToken(token))) {
+        if(StringUtils.isEmpty(authResource.getUserCodeByToken(token))
+                || StringUtils.isEmpty(token)) {
             failResponseData(response);
             return false;
         }
