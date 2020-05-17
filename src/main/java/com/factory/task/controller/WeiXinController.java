@@ -54,6 +54,7 @@ public class WeiXinController {
             @RequestParam("iv") String iv) {
         String req = "https://api.weixin.qq.com/sns/jscode2session?appid=wxf9682b2d07b42000&secret=11563aa67bfedfa04777176081e240c2&js_code=$code&grant_type=authorization_code";
         String realReq = req.replace("$code", code);
+        System.out.println("we get code is ====" + code + "====");
         ResponseEntity<String> s = restTemplate.getForEntity(realReq, String.class);
         WeiXinLogin weiXinLogin = JSONObject.parseObject(s.getBody(), WeiXinLogin.class);
         WeiXinUserLinkSysUser weiXinUserInfo = weiXinUserLinkSysUserCurd.findByUnionId(weiXinLogin.getOpenid());
