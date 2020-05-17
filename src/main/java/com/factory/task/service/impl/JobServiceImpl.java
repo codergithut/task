@@ -3,7 +3,6 @@ package com.factory.task.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.factory.task.data.task.*;
 import com.factory.task.data.task.curd.*;
-import com.factory.task.data.user.UserInfoData;
 import com.factory.task.data.user.curd.UserInfoDataCurd;
 import com.factory.task.interceptor.AuthResource;
 import com.factory.task.model.task.JobView;
@@ -12,7 +11,6 @@ import com.factory.task.model.task.TaskInsView;
 import com.factory.task.model.weixin.message.SubMessageBack;
 import com.factory.task.model.weixin.message.SubscribeMessageUtil;
 import com.factory.task.service.JobService;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,6 +55,12 @@ public class JobServiceImpl implements JobService {
     @Autowired
     private SubscribeMessageUtil subscribeMessageUtil;
 
+    @Autowired
+    private JobTemplateDataCurd jobTemplateDataCurd;
+
+    @Autowired
+    private JobTplRelTaskTplDataCurd jobTplRelTaskTplDataCurd;
+
     @Value("${spring.weixin.templateId}")
     private String templateId;
 
@@ -66,7 +70,6 @@ public class JobServiceImpl implements JobService {
         JobData jobData = new JobData();
         BeanUtils.copyProperties(jobView, jobData);
         jobData.setPublisherUserId(pubCode);
-        System.out.println(JSON.toJSONString(jobData));
         return jobDataCurd.save(jobData) != null;
     }
 
@@ -85,9 +88,17 @@ public class JobServiceImpl implements JobService {
     @Override
     public Boolean startJob(String jobCode) {
         JobData jobData = jobDataCurd.findByJobCode(jobCode);
-        String startTaskTplCode = jobData.getStartTaskTplCode();
-        TaskTplData startTaskTpl = taskTplDataCurd.findTaskTplDataByTaskCode(startTaskTplCode);
-        createTaskInsByTpl(startTaskTpl, jobCode);
+        String startJobTplCode = jobData.getJobTemplateCode();
+        JobTemplateData jobTemplateData = jobTemplateDataCurd.findById(startJobTplCode).get();
+        int initOrder = 0;
+        if(jobTemplateData != null) {
+            JobTplRelTaskTplData jobTplRelTaskTplData = jobTplRelTaskTplDataCurd
+                    .findByJobTemplateCodeAndOrder(jobTemplateData.getJobTemplateCode(), initOrder);
+            if(jobTplRelTaskTplData != null) {
+                TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(jobTplRelTaskTplData.getTaskCode());
+                createTaskInsByTpl(taskTplData, jobCode, startJobTplCode);
+            }
+        }
         return true;
     }
 
@@ -107,13 +118,23 @@ public class JobServiceImpl implements JobService {
         taskInsData.setTaskStatus("Finish");
         taskInsDataCurd.save(taskInsData);
 
-        if(StringUtils.isEmpty(taskInsData.getNextTaskTplCode())) {
+        String jobTemplateCode = taskInsData.getJobTemplateCode();
+        String taskTplCode = taskInsData.getTaskTplCode();
+
+
+        JobTplRelTaskTplData jobTplRelTaskTplData = jobTplRelTaskTplDataCurd
+                .findByTaskCodeAndJobTemplateCode(taskTplCode, jobTemplateCode);
+
+
+        if("false".equals(jobTplRelTaskTplData.getHasNext())) {
             JobData jobData = jobDataCurd.findByJobCode(taskInsData.getJobCode());
             jobData.setIsFinished("Finish");
             jobDataCurd.save(jobData);
         } else {
-            TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(taskInsData.getNextTaskTplCode());
-            createTaskInsByTpl(taskTplData, taskInsData.getJobCode());
+            JobTplRelTaskTplData nextJobTpl = jobTplRelTaskTplDataCurd.findByJobTemplateCodeAndOrder
+                    (jobTplRelTaskTplData.getJobTemplateCode(), jobTplRelTaskTplData.getOrder() + 1);
+            TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(nextJobTpl.getTaskCode());
+            createTaskInsByTpl(taskTplData, taskInsData.getJobCode(), jobTemplateCode);
         }
 
         return true;
@@ -225,13 +246,13 @@ public class JobServiceImpl implements JobService {
     }
 
 
-    private void createTaskInsByTpl(TaskTplData taskTplData, String jobCode) {
+    private void createTaskInsByTpl(TaskTplData taskTplData, String jobCode, String jobTemplateCode) {
         TaskInsData taskInsData = new TaskInsData();
         taskInsData.setTaskTplCode(taskTplData.getTaskCode());
         taskInsData.setTaskStatus("Begin");
         taskInsData.setTaskInsCode(UUID.randomUUID().toString());
-        taskInsData.setNextTaskTplCode(taskTplData.getNextTaskTplCode());
         taskInsData.setJobCode(jobCode);
+        taskInsData.setJobTemplateCode(jobTemplateCode);
         sendNoticeMessage(taskTplData);
         if(!StringUtils.isEmpty(taskTplData.getDependTaskTplCode())) {
             taskInsData.setDependTaskTplCode(taskTplData.getDependTaskTplCode());
@@ -254,7 +275,7 @@ public class JobServiceImpl implements JobService {
             if(!CollectionUtils.isEmpty(dependTaskTplCodes)) {
                 dependTaskTplCodes.forEach(e -> {
                     TaskTplData depTaskTpl = taskTplDataCurd.findTaskTplDataByTaskCode(e);
-                    createTaskInsByTpl(depTaskTpl, jobCode);
+                    createTaskInsByTpl(depTaskTpl, jobCode, jobTemplateCode);
                 });
             }
         }

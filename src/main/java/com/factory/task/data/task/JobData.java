@@ -27,10 +27,6 @@ public class JobData {
      */
     private String jobDes;
 
-    /**
-     * 起始工作流编码
-     */
-    private String startTaskTplCode;
 
     /**
      * 是否结束
@@ -41,6 +37,12 @@ public class JobData {
      * 发布人用户id
      */
     private String publisherUserId;
+
+    /**
+     * 使用改数据 工作启动模版
+     *
+     */
+    private String jobTemplateCode;
 
     /**
      * 最晚完成时间
@@ -76,13 +78,6 @@ public class JobData {
         this.jobDes = jobDes;
     }
 
-    public String getStartTaskTplCode() {
-        return startTaskTplCode;
-    }
-
-    public void setStartTaskTplCode(String startTaskTplCode) {
-        this.startTaskTplCode = startTaskTplCode;
-    }
 
     public String getIsFinished() {
         return isFinished;
@@ -110,6 +105,14 @@ public class JobData {
 
     public String getJobData() {
         return jobData;
+    }
+
+    public String getJobTemplateCode() {
+        return jobTemplateCode;
+    }
+
+    public void setJobTemplateCode(String jobTemplateCode) {
+        this.jobTemplateCode = jobTemplateCode;
     }
 
     public void setJobData(String jobData) {

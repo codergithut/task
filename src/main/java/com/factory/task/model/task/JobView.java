@@ -22,10 +22,12 @@ public class JobView {
      */
     private String jobDes;
 
+
     /**
-     * 起始工作流编码
+     * 使用改数据 工作启动模版
+     *
      */
-    private String startTaskTplCode;
+    private String jobTemplateCode;
 
     /**
      * 是否结束
@@ -93,13 +95,7 @@ public class JobView {
         this.deadLine = deadLine;
     }
 
-    public String getStartTaskTplCode() {
-        return startTaskTplCode;
-    }
 
-    public void setStartTaskTplCode(String startTaskTplCode) {
-        this.startTaskTplCode = startTaskTplCode;
-    }
 
     public String getTaskInsCode() {
         return taskInsCode;
@@ -119,6 +115,14 @@ public class JobView {
 
     public String getJobData() {
         return jobData;
+    }
+
+    public String getJobTemplateCode() {
+        return jobTemplateCode;
+    }
+
+    public void setJobTemplateCode(String jobTemplateCode) {
+        this.jobTemplateCode = jobTemplateCode;
     }
 
     public void setJobData(String jobData) {

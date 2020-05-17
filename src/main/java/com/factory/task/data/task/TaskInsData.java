@@ -42,14 +42,17 @@ public class TaskInsData {
     private String taskName;
 
     /**
+     * 使用改数据 工作启动模版
+     *
+     */
+    private String jobTemplateCode;
+
+
+    /**
      * 工作流编号
      */
     private String jobCode;
 
-    /**
-     * 下一个任务编号
-     */
-    private String nextTaskTplCode;
 
     /**
      * 当前处理人
@@ -96,12 +99,12 @@ public class TaskInsData {
         this.jobCode = jobCode;
     }
 
-    public String getNextTaskTplCode() {
-        return nextTaskTplCode;
+    public String getJobTemplateCode() {
+        return jobTemplateCode;
     }
 
-    public void setNextTaskTplCode(String nextTaskTplCode) {
-        this.nextTaskTplCode = nextTaskTplCode;
+    public void setJobTemplateCode(String jobTemplateCode) {
+        this.jobTemplateCode = jobTemplateCode;
     }
 
     public void setTaskData(String taskData) {
