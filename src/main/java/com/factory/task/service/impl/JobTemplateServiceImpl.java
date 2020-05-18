@@ -8,6 +8,7 @@ import com.factory.task.model.task.TaskHandleTemplateView;
 import com.factory.task.service.JobTemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import java.util.UUID;
 /**
  * Created by tianjian on 2020/5/17.
  */
+@Service
 public class JobTemplateServiceImpl implements JobTemplateService {
 
     @Autowired
