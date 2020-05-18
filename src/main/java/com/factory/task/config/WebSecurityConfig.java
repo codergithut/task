@@ -20,13 +20,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
 
         // 排除配置
-        addInterceptor.excludePathPatterns("/error");
-        addInterceptor.excludePathPatterns("/user/**");
-        addInterceptor.excludePathPatterns("/util/**");
-        addInterceptor.excludePathPatterns("/gps/**");
-        addInterceptor.excludePathPatterns("/message/**");
-        addInterceptor.excludePathPatterns("/weixin/**");
-	addInterceptor.excludePathPatterns("/doc/**");
+        addInterceptor.addPathPatterns("/guard/**");
 //        addInterceptor.excludePathPatterns("/user/**");
 //        addInterceptor.excludePathPatterns("/attendance/**");
 //        addInterceptor.excludePathPatterns("/inventory/**");
@@ -38,4 +32,3 @@ public class WebSecurityConfig implements WebMvcConfigurer {
 //        addInterceptor.addPathPatterns("/**");
     }
 }
-
