@@ -1,66 +1,81 @@
 package com.factory.task.model.task;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 import java.util.List;
 
 /**
  * Created by tianjian on 2020/1/11.
  */
+@ApiModel
 public class TaskTplView {
 
     /**
      * 任务编码
      */
+    @ApiModelProperty("任务编码")
     private String taskCode;
 
     /**
      * 任务名称
      */
+    @ApiModelProperty("任务名称")
     private String taskName;
 
     /**
      * 任务描述
      */
+    @ApiModelProperty("任务描述")
     private String taskDes;
 
     /**
      * 任务额外参数
      */
+    @ApiModelProperty("任务额外参数")
     private List<TaskTplDescMetaView> taskTplDescMetaViews;
 
     /**
      * 任务类型
      */
+    @ApiModelProperty("任务类型")
     private String taskType;
 
     /**
      * 任务依赖
      */
+    @ApiModelProperty("任务依赖")
     private List<String> dependTaskCodes;
 
     /**
      * 发布人用户id
      */
+    @ApiModelProperty("发布人用户id")
     private String publisherUserId;
 
     /**
      * 接受人id
      */
+    @ApiModelProperty("接受人id")
     private String receiverUserId;
 
     /**
      * 子节点任务
      */
+    @ApiModelProperty("子节点任务")
     private String nextTaskCode;
 
     /**
      * 是否是根节点
      */
+    @ApiModelProperty("是否是根节点")
     private Boolean isParent;
 
     /**
      * 创建时间
      */
+    @ApiModelProperty("创建时间")
     private Date createDate;
 
 

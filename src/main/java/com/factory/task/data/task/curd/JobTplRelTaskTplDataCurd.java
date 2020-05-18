@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
  * Created by tianjian on 2020/5/17.
  */
 public interface JobTplRelTaskTplDataCurd extends CrudRepository<JobTplRelTaskTplData, String> {
-    JobTplRelTaskTplData findByJobTemplateCodeAndOrder(String jobTemplateCode, int initOrder);
+    JobTplRelTaskTplData findByJobTemplateCodeAndOrderNum(String jobTemplateCode, int initOrder);
 
     JobTplRelTaskTplData findByTaskCodeAndJobTemplateCode(String taskTplCode, String jobTemplateCode);
 }

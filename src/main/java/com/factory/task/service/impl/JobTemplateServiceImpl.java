@@ -48,7 +48,7 @@ public class JobTemplateServiceImpl implements JobTemplateService {
             String handleUserCode = task.getDependUserCode();
             JobTplRelTaskTplData jobTplRelTaskTplData = new JobTplRelTaskTplData();
             jobTplRelTaskTplData.setJobTemplateCode(jobTemplateId);
-            jobTplRelTaskTplData.setOrder(++order);
+            jobTplRelTaskTplData.setOrderNum(++order);
             jobTplRelTaskTplData.setUserCode(handleUserCode);
             jobTplRelTaskTplData.setTaskCode(taskCode);
             if(order == size) {

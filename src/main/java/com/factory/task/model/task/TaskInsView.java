@@ -1,43 +1,54 @@
 package com.factory.task.model.task;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by tianjian on 2020/1/11.
  */
+@ApiModel
 public class TaskInsView {
 
     /**
      * 任务编码
      */
+    @ApiModelProperty("任务编码")
     private String taskInsCode;
 
     /**
      * 依赖任务的code
      */
+    @ApiModelProperty("依赖任务的code")
     private String dependTaskTplCode;
 
     /**
      * 工作状态
      */
+    @ApiModelProperty("工作状态")
     private String taskStatus;
 
     /**
      * 工作流编号
      */
+    @ApiModelProperty("工作流编号")
     private String jobCode;
 
     /**
      * 下一个任务编号
      */
+    @ApiModelProperty("下一个任务编号")
     private String nextTaskTplCode;
 
     /**
      * 任务名称
      */
+    @ApiModelProperty("任务名称")
     private String taskName;
 
     /**
      * 实例数据
      */
+    @ApiModelProperty("实例数据")
     private String taskData;
 
     private Boolean isStar;

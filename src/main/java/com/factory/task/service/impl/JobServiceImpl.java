@@ -93,7 +93,7 @@ public class JobServiceImpl implements JobService {
         int initOrder = 0;
         if(jobTemplateData != null) {
             JobTplRelTaskTplData jobTplRelTaskTplData = jobTplRelTaskTplDataCurd
-                    .findByJobTemplateCodeAndOrder(jobTemplateData.getJobTemplateCode(), initOrder);
+                    .findByJobTemplateCodeAndOrderNum(jobTemplateData.getJobTemplateCode(), initOrder);
             if(jobTplRelTaskTplData != null) {
                 TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(jobTplRelTaskTplData.getTaskCode());
                 createTaskInsByTpl(taskTplData, jobCode, startJobTplCode);
@@ -131,8 +131,8 @@ public class JobServiceImpl implements JobService {
             jobData.setIsFinished("Finish");
             jobDataCurd.save(jobData);
         } else {
-            JobTplRelTaskTplData nextJobTpl = jobTplRelTaskTplDataCurd.findByJobTemplateCodeAndOrder
-                    (jobTplRelTaskTplData.getJobTemplateCode(), jobTplRelTaskTplData.getOrder() + 1);
+            JobTplRelTaskTplData nextJobTpl = jobTplRelTaskTplDataCurd.findByJobTemplateCodeAndOrderNum
+                    (jobTplRelTaskTplData.getJobTemplateCode(), jobTplRelTaskTplData.getOrderNum() + 1);
             TaskTplData taskTplData = taskTplDataCurd.findTaskTplDataByTaskCode(nextJobTpl.getTaskCode());
             createTaskInsByTpl(taskTplData, taskInsData.getJobCode(), jobTemplateCode);
         }
