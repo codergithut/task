@@ -1,35 +1,44 @@
 package com.factory.task.model.inventory;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 /**
  * Created by tianjian on 2020/2/16.
  */
+@ApiModel
 public class PurchaseRecordsView {
 
     /**
      * 入库编号
      */
+    @ApiModelProperty("入库编号")
     private String purchaseRecordsCode;
 
     /**
      * 材料编码
      */
+    @ApiModelProperty("材料编码")
     private String materialCode;
 
     /**
      * 购买数量
      */
+    @ApiModelProperty("购买数量")
     private Integer purchaseNum;
 
     /**
      * 购买时间
      */
+    @ApiModelProperty("购买时间")
     private Date purchaseDate;
 
     /**
      * 入库描述 外部购买，工厂生产等等
      */
+    @ApiModelProperty("入库描述 外部购买，工厂生产等等")
     private String purchaseDesc;
 
     public String getPurchaseRecordsCode() {

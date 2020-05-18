@@ -1,11 +1,14 @@
 package com.factory.task.model.weixin.message;
 
 
+import io.swagger.annotations.ApiModel;
+
 import java.util.Map;
 
 /**
  * Created by tianjian on 2020/4/19.
  */
+@ApiModel
 public class SubscribeMessage {
 
     private String access_token;

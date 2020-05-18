@@ -1,8 +1,11 @@
 package com.factory.task.model.weixin;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * Created by tianjian on 2020/4/12.
  */
+@ApiModel
 public class WeiXinLogin {
 
     private String session_key;

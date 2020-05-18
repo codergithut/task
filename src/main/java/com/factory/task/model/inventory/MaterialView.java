@@ -1,33 +1,42 @@
 package com.factory.task.model.inventory;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * Created by tianjian on 2020/2/16.
  */
+@ApiModel
 public class MaterialView {
 
     /**
      * 材料编码
      */
+    @ApiModelProperty("材料编码")
     private String materialCode;
 
     /**
      * 品名
      */
+    @ApiModelProperty("品名")
     private String materialName;
 
     /**
      * 品色
      */
+    @ApiModelProperty("")
     private String materialColour;
 
     /**
      * 用料说明
      */
+    @ApiModelProperty("用料说明")
     private String materialDesc;
 
     /**
      * 备注
      */
+    @ApiModelProperty("备注")
     private String remarks;
 
 

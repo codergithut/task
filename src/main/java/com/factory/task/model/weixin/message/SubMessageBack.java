@@ -1,8 +1,11 @@
 package com.factory.task.model.weixin.message;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * Created by tianjian on 2020/4/19.
  */
+@ApiModel
 public class SubMessageBack {
 
     private Long errcode;

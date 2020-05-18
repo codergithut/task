@@ -1,35 +1,44 @@
 package com.factory.task.model.attence;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
 /**
  * Created by tianjian on 2020/2/14.
  */
+@ApiModel
 public class AttendancePersonHistoryView {
 
     /**
      * 用户编号
      */
+    @ApiModelProperty("用户编号")
     private String userCode;
 
     /**
      * 考勤异常检查编号
      */
+    @ApiModelProperty("考勤异常检查编号")
     private String attendanceTimeCode;
 
     /**
      * 考情异常
      */
+    @ApiModelProperty("考情异常")
     private String exception;
 
     /**
      * 异常时间
      */
+    @ApiModelProperty("异常时间")
     private Date historyDate;
 
     /**
      * 考情记录json字符串
      */
+    @ApiModelProperty("考情记录json字符串")
     private String attendanceRecordDesc;
 
     public String getUserCode() {

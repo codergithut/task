@@ -1,5 +1,7 @@
 package com.factory.task.model.weixin;
 
+import io.swagger.annotations.ApiModel;
+
 /**
  * Created by tianjian on 2020/4/19.
  */
