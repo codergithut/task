@@ -26,6 +26,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         addInterceptor.excludePathPatterns("/gps/**");
         addInterceptor.excludePathPatterns("/message/**");
         addInterceptor.excludePathPatterns("/weixin/**");
+	addInterceptor.excludePathPatterns("/doc/**");
 //        addInterceptor.excludePathPatterns("/user/**");
 //        addInterceptor.excludePathPatterns("/attendance/**");
 //        addInterceptor.excludePathPatterns("/inventory/**");
