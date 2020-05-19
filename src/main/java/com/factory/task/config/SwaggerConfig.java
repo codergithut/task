@@ -31,6 +31,7 @@ public class SwaggerConfig {
 		pars.add(ticketPar.build());    //根据每个方法名也知道当前方法在设置什么参数
 
 		return new Docket(DocumentationType.SWAGGER_2)
+			        .host("119.3.156.49:8080")
 				.select()
 				.apis(RequestHandlerSelectors.any())
 				.build()
